@@ -104,16 +104,17 @@ def userStats():
     print("Exp to next level: " + str(exp) + '\n')
 
 def armorSwapper(slot):
-  ansEquip='ans'
+  ansEquip='a '
   validNumberList=[]
   for item in inv:
     if item.slot==slot:
       print(item.name+" ("+(str(len(inv)))+')\n')
       validNumberList.append(len(inv))
       #print(validNumberList)
-  while ansEquip not in validNumberList:
-    ansEquip=int(input('what number item would you like to equip?: '))
-        
+  while ansEquip not in str(validNumberList):
+    ansEquip=input('what number item would you like to equip?: ')
+  # for num in validNumberList:
+  #   print(num)
 def equipMenu():
     ans = 'ans'
     #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
