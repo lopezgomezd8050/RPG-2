@@ -41,6 +41,13 @@ exp = 0
 
 #shhh idk how to use classes yet
 #placeholder names btw
+class Armor:
+  def __init__(self,tier,slot):
+    self.tier=tier
+    self.slot=slot
+#addyHelm=Armor(4,'helmet')
+    #example text
+#nuke from here
 t1Armor = ['t1helm', 't1chest', 't1legs']
 t2Armor = ['t2helm', 't2chest', 't2legs']
 t3Armor = ['t3helm', 't3chest', 't3legs']
@@ -56,11 +63,20 @@ weapons = [
 rdt = t1Armor + t2Armor + t3Armor + t4Armor + t5Armor + amulets
 #could make it in such a way if you get multiple of the same drop it combines it in the backround and just gives you th next tier up
 
+#to here
+
+#make enemies a class too
+class Enemy:
+  def __init__(self,strength,type):
+    self.strength=strength
+    self.type=type
+
+#remove these later
 enemyMagic = ['Undead Mage', 'Lesser Thrall']
 enemyWarrior = ['Zombie', 'Vampire']
 enemyArcher = ['Skeleton', 'Sharpshooter']
 enemyPool = enemyMagic + enemyWarrior + enemyArcher
-
+#^^^
 
 def enter():
     input("Press enter to continue.")
