@@ -3,26 +3,24 @@ import random
 import time
 import math
 
-userHealth = 0
-userAttack = 0
-userMage = 0
-userRange = 0
-userLevel = 1
-userEffects = []
-userInv = []
-userEquip = ['helmet', 'chestplate', 'platelegs', 'amulet',
-             'weapon']  #helmet amulet chestplate platelegs weapon
-userStats = []
 
-enemyHealth = 0
-enemyAttack = 0
-enemyMage = 0
-enemyRange = 0
-enemyLevel = 0
-enemyEffects = []
-enemyInv = []
-enemyEquip = []
-enemyStats = []
+class Person:
+
+    def __init__(self, Health, Attack, Mage, Range, Level, Effects, Inv, Equip,
+                 Stats):
+        self.Health = Health
+        self.Attack = Attack
+        self.Mage = Mage
+        self.Range = Range
+        self.Level = Level
+        self.Effects = Effects
+        self.Inv = Inv
+        self.Equip = Equip
+        self.Stats = Stats
+
+
+user = Person(0, 0, 0, 0, 1, [], [], [], [])
+enemy = Person(0, 0, 0, 0, 1, [], [], [], [])
 
 location = [
     'plains', 'forest', 'desert', 'tundra', 'mountain', 'mountaintop', 'market'
@@ -93,13 +91,13 @@ def yesNo(question):
 
 
 def userStats():
-    print("\nHealth: " + str(userHealth))
-    print("Attack: " + str(userAttack))
-    print("Mage: " + str(userMage))
-    print("Range: " + str(userRange))
-    print("Effects: " + str(userEffects))
+    print("\nHealth: " + str(user.Health))
+    print("Attack: " + str(user.Attack))
+    print("Mage: " + str(user.Mage))
+    print("Range: " + str(user.Range))
+    print("Effects: " + str(user.Effects))
     print("Money: " + str(money))
-    print("Level: " + str(userLevel))
+    print("Level: " + str(user.Level))
     print("Exp to next level: " + str(exp) + '\n')
 
 
@@ -107,17 +105,19 @@ def equipMenu():
     ans = 'ans'
     #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
     while ans not in ('h', 'c', 'p', 'a', 'w'):
-        ans = input('Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, or Weapon?\n(h)(c)(p)(a)(w):').lower()
+        ans = input(
+            'Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, or Weapon?\n(h)(c)(p)(a)(w):'
+        ).lower()
     if ans == 'h':
-      print('helm')
+        print('helm')
     elif ans == 'c':
-      print('chest')
+        print('chest')
     elif ans == 'p':
-      print('legs')
+        print('legs')
     elif ans == 'a':
-      print('amulet')
+        print('amulet')
     elif ans == 'w':
-      print('weapon')
+        print('weapon')
 
 
 def lootTable():
@@ -267,10 +267,10 @@ def randomEvent(odds):
 
 
 def tutorial():
-    global userHealth
-    global userAttack
-    global userMage
-    global userRange
+    user.Health
+    user.Attack
+    user.Mage
+    user.Range
     print('Welcome to rpg')
     userClass = question(
         'Do you want to be a Warrior, an Archer, or a Magician?', 'w', 'a',
@@ -278,45 +278,45 @@ def tutorial():
     if userClass == 'w':
         print('\nYou picked the Warrior class!')
 
-        userHealth = random.randint(100, 120)
-        print("\nHealth: " + str(userHealth))
+        user.Health = random.randint(100, 120)
+        print("\nHealth: " + str(user.Health))
 
-        userAttack = random.randint(110, 120)
-        print("Attack: " + str(userAttack))
+        user.Attack = random.randint(110, 120)
+        print("Attack: " + str(user.Attack))
 
-        userMage = random.randint(40, 50)
-        print("Mage: " + str(userMage))
+        user.Mage = random.randint(40, 50)
+        print("Mage: " + str(user.Mage))
 
-        userRange = random.randint(40, 50)
-        print("Range: " + str(userRange) + '\n')
+        user.Range = random.randint(40, 50)
+        print("Range: " + str(user.Range) + '\n')
     elif userClass == 'a':
         print('\nYou picked the Archer class!')
 
-        userHealth = random.randint(100, 120)
-        print("\nHealth: " + str(userHealth))
+        user.Health = random.randint(100, 120)
+        print("\nHealth: " + str(user.Health))
 
-        userAttack = random.randint(40, 50)
-        print("Attack: " + str(userAttack))
+        user.Attack = random.randint(40, 50)
+        print("Attack: " + str(user.Attack))
 
-        userMage = random.randint(40, 50)
-        print("Mage: " + str(userMage))
+        user.Mage = random.randint(40, 50)
+        print("Mage: " + str(user.Mage))
 
-        userRange = random.randint(100, 120)
-        print("Range: " + str(userRange) + '\n')
+        user.Range = random.randint(100, 120)
+        print("Range: " + str(user.Range) + '\n')
     elif userClass == 'm':
         print('\nYou picked the Magician class!')
 
-        userHealth = random.randint(100, 120)
-        print("\nHealth: " + str(userHealth))
+        user.Health = random.randint(100, 120)
+        print("\nHealth: " + str(user.Health))
 
-        userAttack = random.randint(40, 50)
-        print("Attack: " + str(userAttack))
+        user.Attack = random.randint(40, 50)
+        print("Attack: " + str(user.Attack))
 
-        userMage = random.randint(100, 120)
-        print("Mage: " + str(userMage))
+        user.Mage = random.randint(100, 120)
+        print("Mage: " + str(user.Mage))
 
-        userRange = random.randint(40, 50)
-        print("Range: " + str(userRange) + '\n')
+        user.Range = random.randint(40, 50)
+        print("Range: " + str(user.Range) + '\n')
 
     enterclr()
     print("put tutorial here")
@@ -327,7 +327,7 @@ def dayCycle():
     global day
     tutorial()
     #while like health is above 0 or smth
-    while userHealth > 0:
+    while user.Health > 0:
         print("It is day " + str(day) + " in your journey.")
         print("You are currently in the " + currentLocation + ".")
         ans = "ans"
@@ -343,7 +343,7 @@ def dayCycle():
                 ans = "ans"
             if ans == "i":
                 print("\n")
-                print(userInv)
+                print(user.Inv)
                 ans = "ans"
             if ans == 'e':
                 print("\nYou venture off to explore the " + currentLocation +
