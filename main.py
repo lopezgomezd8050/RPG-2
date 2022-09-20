@@ -46,7 +46,7 @@ class Armor:
     self.tier=tier
     self.slot=slot
 #addyHelm=Armor(4,'helmet')
-    #example text
+    #example armor
 #nuke from here
 t1Armor = ['t1helm', 't1chest', 't1legs']
 t2Armor = ['t2helm', 't2chest', 't2legs']
@@ -60,7 +60,7 @@ weapons = [
 ]
 #make like 1 be health then 2 be attack then mage then archer then 5 just be like an amulet of glory
 #or make the amulets benifiti the area and glory could be like combine all of em
-rdt = t1Armor + t2Armor + t3Armor + t4Armor + t5Armor + amulets
+#rdt = t1Armor + t2Armor + t3Armor + t4Armor + t5Armor + amulets
 #could make it in such a way if you get multiple of the same drop it combines it in the backround and just gives you th next tier up
 
 #to here
@@ -136,6 +136,7 @@ def equipMenu():
         print('weapon')
 
 
+#VV bad code will change later™
 def lootTable():
     lootGotten = "abc"
     if currentLocation == "plains":
@@ -151,7 +152,7 @@ def lootTable():
     elif currentLocation == "mountaintop":
         lootGotten = random.choice(
             t5Armor)  #just 5 or we could add god armor or smth
-    userInv.append(lootGotten)
+    user.Inv.append(lootGotten)
     return lootGotten
 
 
