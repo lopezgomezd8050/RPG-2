@@ -105,9 +105,19 @@ def userStats():
 
 def equipMenu():
     ans = 'ans'
-    print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
+    #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
     while ans not in ('h', 'c', 'p', 'a', 'w'):
-        ans = input('abc')
+        ans = input('Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, or Weapon?\n(h)(c)(p)(a)(w):').lower()
+    if ans == 'h':
+      print('helm')
+    elif ans == 'c':
+      print('chest')
+    elif ans == 'p':
+      print('legs')
+    elif ans == 'a':
+      print('amulet')
+    elif ans == 'w':
+      print('weapon')
 
 
 def lootTable():
