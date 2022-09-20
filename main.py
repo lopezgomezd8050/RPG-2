@@ -4,9 +4,19 @@ import time
 import math
 
 
+class Armor:
+
+    def __init__(self, tier, slot, health, damage,name):
+        self.tier = tier
+        self.slot = slot
+        self.health = health
+        self.damage = damage
+        self.name = name
+
+
 class Person:
 
-    def __init__(self, Health, Attack, Mage, Range, Level, Effects, Inv, Equip,
+    def __init__(self, Health, Attack, Mage, Range, Level, Effects,Equip,
                  Stats):
         self.Health = Health
         self.Attack = Attack
@@ -14,13 +24,12 @@ class Person:
         self.Range = Range
         self.Level = Level
         self.Effects = Effects
-        self.Inv = Inv
         self.Equip = Equip
         self.Stats = Stats
 
-
-user = Person(0, 0, 0, 0, 1, [], [], [], [])
-enemy = Person(0, 0, 0, 0, 1, [], [], [], [])
+epichelmet=Armor(1,'helmet',1,1,'epichelmet')
+user = Person(0, 0, 0, 0, 1, [], [], [])
+enemy = Person(0, 0, 0, 0, 1, [], [], [])
 
 location = [
     'plains', 'forest', 'desert', 'tundra', 'mountain', 'mountaintop', 'market'
@@ -38,45 +47,23 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 exp = 0
-
-#shhh idk how to use classes yet
-#placeholder names btw
-class Armor:
-  def __init__(self,tier,slot):
-    self.tier=tier
-    self.slot=slot
-#addyHelm=Armor(4,'helmet')
-    #example armor
-#nuke from here
-t1Armor = ['t1helm', 't1chest', 't1legs']
-t2Armor = ['t2helm', 't2chest', 't2legs']
-t3Armor = ['t3helm', 't3chest', 't3legs']
-t4Armor = ['t4helm', 't4chest', 't4legs']
-t5Armor = ['t5helm', 't5chest', 't5legs']
-amulets = ['1tamu', '2tamu', '3tamu', '4tamu', 'glory']
-weapons = [
-    't1sword', 't2sword', 't3sword', 't1staff', 't2staff', 't3staff', 't1bow',
-    't2bow', 't3bow'
-]
-#make like 1 be health then 2 be attack then mage then archer then 5 just be like an amulet of glory
-#or make the amulets benifiti the area and glory could be like combine all of em
-#rdt = t1Armor + t2Armor + t3Armor + t4Armor + t5Armor + amulets
-#could make it in such a way if you get multiple of the same drop it combines it in the backround and just gives you th next tier up
-
-#to here
+inv=[epichelmet]
 
 #make enemies a class too
 class Enemy:
-  def __init__(self,strength,type):
-    self.strength=strength
-    self.type=type
 
-#remove these later
+    def __init__(self, strength, type):
+        self.strength = strength
+        self.type = type
+
+
+# remove these later
 enemyMagic = ['Undead Mage', 'Lesser Thrall']
 enemyWarrior = ['Zombie', 'Vampire']
 enemyArcher = ['Skeleton', 'Sharpshooter']
 enemyPool = enemyMagic + enemyWarrior + enemyArcher
-#^^^
+# ^^^
+
 
 def enter():
     input("Press enter to continue.")
@@ -116,24 +103,38 @@ def userStats():
     print("Level: " + str(user.Level))
     print("Exp to next level: " + str(exp) + '\n')
 
-
+def armorSwapper(slot):
+  ansEquip='ans'
+  validNumberList=[]
+  for item in inv:
+    if item.slot==slot:
+      print(item.name+" ("+(str(len(inv)))+')\n')
+      validNumberList.append(len(inv))
+      #print(validNumberList)
+  while ansEquip not in validNumberList:
+    ansEquip=int(input('what number item would you like to equip?: '))
+        
 def equipMenu():
     ans = 'ans'
     #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
-    while ans not in ('h', 'c', 'p', 'a', 'w'):
+    while ans not in ('h', 'c', 'p', 'a', 'w','n'):
         ans = input(
-            'Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, or Weapon?\n(h)(c)(p)(a)(w):'
+            'Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, Weapon, or None?\n(h)(c)(p)(a)(w)(n):'
         ).lower()
+    print('\n')
+    
     if ans == 'h':
-        print('helm')
+      armorSwapper('helmet')
     elif ans == 'c':
-        print('chest')
+     armorSwapper('chestplate')
     elif ans == 'p':
-        print('legs')
+      armorSwapper('platelegs')
     elif ans == 'a':
-        print('amulet')
+      armorSwapper('amulet')
     elif ans == 'w':
-        print('weapon')
+      armorSwapper('weapon')
+    elif ans == 'n':
+      print('Returning')
 
 
 #VV bad code will change later™
@@ -360,7 +361,7 @@ def dayCycle():
                 ans = "ans"
             if ans == "i":
                 print("\n")
-                print(user.Inv)
+                print(inv)
                 ans = "ans"
             if ans == 'e':
                 print("\nYou venture off to explore the " + currentLocation +
