@@ -28,7 +28,7 @@ class Person:
         self.Stats = Stats
 
 
-epichelmet = Armor(1, 'helmet', 1, 1, 'epichelmet')
+epichelmet = Armor(1, 'helmet', 99999, 99999, 'epichelmet')
 
 #Armors n stuff
 
@@ -78,7 +78,7 @@ armorTable = [
     t5p, t5a, t5s, t5b, t5w
 ]
 
-user = Person(0, 0, 0, 0, 1, [], [], [])
+user = Person(0, 0, 0, 0, 1, [], [epichelmet], [])
 enemy = Person(0, 0, 0, 0, 1, [], [], [])
 
 location = [
@@ -174,7 +174,12 @@ def armorSwapper(slot):
 def equipMenu():
     global userClass
     ans = 'ans'
-    #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
+    y=0
+    print('\nCurrent Equipment:\n')
+    for armor in user.Equip:
+      print(user.Equip[y])
+      y=y+1
+    print('\n')
     while ans not in ('h', 'c', 'p', 'a', 'w', 'n'):
         ans = input(
             'Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, Weapon, or None?\n(h)(c)(p)(a)(w)(n):'
