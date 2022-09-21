@@ -72,13 +72,19 @@ t5s = Armor(5, 'sword', 1, 1, 'tier 5 sword')
 t5b = Armor(5, 'bow', 1, 1, 'tier 5 bow')
 t5w = Armor(5, 'wand', 1, 1, 'tier 5 wand')
 
+nh = Armor(0, 'helmet', 0, 0, 'No Helmet')
+nc = Armor(0, 'chestplate', 0, 0, 'No Chestplate')
+np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
+na = Armor(0, 'amulet', 0, 0, 'No Amulet')
+nw = Armor(0, 'wand', 0, 0, 'No Weapon')
+
 armorTable = [
     t1h, t1c, t1p, t1a, t1s, t1b, t1w, t2h, t2c, t2p, t2a, t2s, t2b, t2w, t3h,
     t3c, t3p, t3a, t3s, t3b, t3w, t4h, t4c, t4p, t4a, t4s, t4b, t4w, t5h, t5c,
     t5p, t5a, t5s, t5b, t5w
 ]
 
-user = Person(0, 0, 0, 0, 1, [], [], [])
+user = Person(0, 0, 0, 0, 1, [], [nh,nc,np,na,nw], [])
 enemy = Person(0, 0, 0, 0, 1, [], [], [])
 
 location = [
@@ -156,7 +162,7 @@ def userStats():
 
 
 def armorSwapper(slot):
-    ansEquip = 'a '
+    ansEquip = ''
     x=0
     validNumberList = []
     validArmorList = []
@@ -168,11 +174,14 @@ def armorSwapper(slot):
             x=x+1
             
     while ansEquip not in str(validNumberList):
-        ansEquip = input('what number item would you like to equip?: ')
-    try:
-      user.Equip.append(validArmorList[int(ansEquip)])
-      inv.pop(int(ansEquip))
+      ansEquip = input('what number item would you like to equip?: ')
       
+    try:
+      user.Equip.append(validArmorList[int(ansEquip)])#change it to fix how the inventory sets up bc yeah
+      inv.pop(int(ansEquip))
+      #deletes the equivilent item in inv, not what the equvilent is in ansEquip
+      #set up an equilivlent to the inventory value to the ansEquip value
+      #ie (43=8) or smth or like (43,8)
     except:
       print('')
     
