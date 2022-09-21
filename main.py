@@ -176,12 +176,13 @@ def armorSwapper(slot):
             ansEquipToInv.append(list((x,y)))
             x=x+1
         y=y+1
-    print(ansEquipToInv)        
     while ansEquip not in str(validNumberList):
       ansEquip = input('what number item would you like to equip?: ')
     try:
-      user.Equip.append(validArmorList[int(ansEquip)])#change it to fix how the inventory sets up bc yeah
-      inv.pop(int(ansEquipToInv))
+      user.Equip.append(validArmorList[int(ansEquip)])
+      finalEquip=ansEquipToInv[int(ansEquip)]
+      finalEquip.pop(0)
+      inv.pop(finalEquip[0])
     except:
       print('')
     
