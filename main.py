@@ -6,7 +6,7 @@ import math
 
 class Armor:
 
-    def __init__(self, tier, slot, health, damage,name):
+    def __init__(self, tier, slot, health, damage, name):
         self.tier = tier
         self.slot = slot
         self.health = health
@@ -16,7 +16,7 @@ class Armor:
 
 class Person:
 
-    def __init__(self, Health, Attack, Mage, Range, Level, Effects,Equip,
+    def __init__(self, Health, Attack, Mage, Range, Level, Effects, Equip,
                  Stats):
         self.Health = Health
         self.Attack = Attack
@@ -27,7 +27,57 @@ class Person:
         self.Equip = Equip
         self.Stats = Stats
 
-epichelmet=Armor(1,'helmet',1,1,'epichelmet')
+
+epichelmet = Armor(1, 'helmet', 1, 1, 'epichelmet')
+
+#Armors n stuff
+
+t1h = Armor(1, 'helmet', 1, 1, 'tier 1 helm')
+t1c = Armor(1, 'chestplate', 1, 1, 'tier 1 chestplate')
+t1p = Armor(1, 'platelegs', 1, 1, 'tier 1 platelegs')
+t1a = Armor(1, 'amulet', 1, 1, 'tier 1 amulet')
+t1s = Armor(1, 'sword', 1, 1, 'tier 1 sword')
+t1b = Armor(1, 'bow', 1, 1, 'tier 1 bow')
+t1w = Armor(1, 'wand', 1, 1, 'tier 1 wand')
+
+t2h = Armor(2, 'helmet', 1, 1, 'tier 2 helm')
+t2c = Armor(2, 'chestplate', 1, 1, 'tier 2 chestplate')
+t2p = Armor(2, 'platelegs', 1, 1, 'tier 2 platelegs')
+t2a = Armor(2, 'amulet', 1, 1, 'tier 2 amulet')
+t2s = Armor(2, 'sword', 1, 1, 'tier 2 sword')
+t2b = Armor(2, 'bow', 1, 1, 'tier 2 bow')
+t2w = Armor(2, 'wand', 1, 1, 'tier 2 wand')
+
+t3h = Armor(3, 'helmet', 1, 1, 'tier 3 helm')
+t3c = Armor(3, 'chestplate', 1, 1, 'tier 3 chestplate')
+t3p = Armor(3, 'platelegs', 1, 1, 'tier 3 platelegs')
+t3a = Armor(3, 'amulet', 1, 1, 'tier 3 amulet')
+t3s = Armor(3, 'sword', 1, 1, 'tier 3 sword')
+t3b = Armor(3, 'bow', 1, 1, 'tier 3 bow')
+t3w = Armor(3, 'wand', 1, 1, 'tier 3 wand')
+
+t4h = Armor(4, 'helmet', 1, 1, 'tier 4 helm')
+t4c = Armor(4, 'chestplate', 1, 1, 'tier 4 chestplate')
+t4p = Armor(4, 'platelegs', 1, 1, 'tier 4 platelegs')
+t4a = Armor(4, 'amulet', 1, 1, 'tier 4 amulet')
+t4s = Armor(4, 'sword', 1, 1, 'tier 4 sword')
+t4b = Armor(4, 'bow', 1, 1, 'tier 4 bow')
+t4w = Armor(4, 'wand', 1, 1, 'tier 4 wand')
+
+t5h = Armor(5, 'helmet', 1, 1, 'tier 5 helm')
+t5c = Armor(5, 'chestplate', 1, 1, 'tier 5 chestplate')
+t5p = Armor(5, 'platelegs', 1, 1, 'tier 5 platelegs')
+t5a = Armor(5, 'amulet', 1, 1, 'tier 5 amulet')
+t5s = Armor(5, 'sword', 1, 1, 'tier 5 sword')
+t5b = Armor(5, 'bow', 1, 1, 'tier 5 bow')
+t5w = Armor(5, 'wand', 1, 1, 'tier 5 wand')
+
+armorTable = [
+    t1h, t1c, t1p, t1a, t1s, t1b, t1w, t2h, t2c, t2p, t2a, t2s, t2b, t2w, t3h,
+    t3c, t3p, t3a, t3s, t3b, t3w, t4h, t4c, t4p, t4a, t4s, t4b, t4w, t5h, t5c,
+    t5p, t5a, t5s, t5b, t5w
+]
+
 user = Person(0, 0, 0, 0, 1, [], [], [])
 enemy = Person(0, 0, 0, 0, 1, [], [], [])
 
@@ -47,7 +97,8 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 exp = 0
-inv=[epichelmet]
+inv = [epichelmet]
+userClass=''
 
 #make enemies a class too
 class Enemy:
@@ -103,58 +154,77 @@ def userStats():
     print("Level: " + str(user.Level))
     print("Exp to next level: " + str(exp) + '\n')
 
+
 def armorSwapper(slot):
-  ansEquip='a '
-  validNumberList=[]
-  for item in inv:
-    if item.slot==slot:
-      print(item.name+" ("+(str(len(inv)))+')\n')
-      validNumberList.append(len(inv))
-      #print(validNumberList)
-  while ansEquip not in str(validNumberList):
-    ansEquip=input('what number item would you like to equip?: ')
-  # for num in validNumberList:
-  #   print(num)
+    ansEquip = 'a '
+    x=1
+    validNumberList = []
+    for item in inv:
+        if item.slot == slot:
+            print(item.name + " (" + (str(x)) + ')\n')
+            validNumberList.append(x)
+            x=x+1
+            #print(validNumberList)
+    while ansEquip not in str(validNumberList):
+        ansEquip = input('what number item would you like to equip?: ')
+
+
+    # for num in validNumberList:
+    #   print(num)
 def equipMenu():
+    global userClass
     ans = 'ans'
     #print('Current Equipment:\n' + userEquip[0])  #work on this tmrw
-    while ans not in ('h', 'c', 'p', 'a', 'w','n'):
+    while ans not in ('h', 'c', 'p', 'a', 'w', 'n'):
         ans = input(
             'Would you like to equip a Helmet, Chestplate, Platelegs, Amulet, Weapon, or None?\n(h)(c)(p)(a)(w)(n):'
         ).lower()
     print('\n')
-    
+
     if ans == 'h':
-      armorSwapper('helmet')
+        armorSwapper('helmet')
     elif ans == 'c':
-     armorSwapper('chestplate')
+        armorSwapper('chestplate')
     elif ans == 'p':
-      armorSwapper('platelegs')
+        armorSwapper('platelegs')
     elif ans == 'a':
-      armorSwapper('amulet')
+        armorSwapper('amulet')
     elif ans == 'w':
-      armorSwapper('weapon')
+        if userClass == 'w':
+          armorSwapper('sword')
+        elif userClass == 'a':
+          armorSwapper('bow')
+        elif userClass == 'm':
+          armorSwapper('wand')
     elif ans == 'n':
-      print('Returning')
+        print('Returning')
 
-
+def lootSorter(tier):
+    x=1
+    validLoot = []
+    for item in armorTable:
+        if item.tier == tier:
+            validLoot.append(item)
+            x=x+1
+    return random.choice(validLoot)
+          
 #VV bad code will change later™
 def lootTable():
-    lootGotten = "abc"
+    lootGotten = ""
     if currentLocation == "plains":
-        lootGotten = random.choice(t1Armor)  #and 2
+        lootGotten=lootSorter(1)
     elif currentLocation == "forest":
-        lootGotten = random.choice(t2Armor)  #and 3
+        lootGotten=lootSorter(2)
     elif currentLocation == "desert":
-        lootGotten = random.choice(t3Armor)  #and 4
+        lootGotten=lootSorter(3)
     elif currentLocation == "tundra":
-        lootGotten = random.choice(t4Armor)  #and 5
+        lootGotten=lootSorter(4)
     elif currentLocation == "mountain":
-        lootGotten = random.choice(t5Armor)  #mostly 5
+        lootGotten=lootSorter(5)
     elif currentLocation == "mountaintop":
-        lootGotten = random.choice(
-            t5Armor)  #just 5 or we could add god armor or smth
-    user.Inv.append(lootGotten)
+        lootGotten=lootSorter(5)
+      
+    inv.append(lootGotten)
     return lootGotten
 
 
@@ -200,7 +270,8 @@ def loot(source):
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                print(lootTable())
+                a=lootTable()
+                print(a.name)
 
     elif source == 'trapChest':
         odds = 7
@@ -208,8 +279,8 @@ def loot(source):
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                print(lootTable())
-
+                a=lootTable()
+                print(a.name)
 
 def battle():
     enterclr()
@@ -286,10 +357,7 @@ def randomEvent(odds):
 
 
 def tutorial():
-    user.Health
-    user.Attack
-    user.Mage
-    user.Range
+    global userClass
     print('Welcome to rpg')
     userClass = question(
         'Do you want to be a Warrior, an Archer, or a Magician?', 'w', 'a',
@@ -362,7 +430,8 @@ def dayCycle():
                 ans = "ans"
             if ans == "i":
                 print("\n")
-                print(inv)
+                for item in inv:
+                  print(item.name)
                 ans = "ans"
             if ans == 'e':
                 print("\nYou venture off to explore the " + currentLocation +
