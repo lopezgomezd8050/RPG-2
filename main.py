@@ -169,13 +169,13 @@ def armorSwapper(slot):
             
     while ansEquip not in str(validNumberList):
         ansEquip = input('what number item would you like to equip?: ')
-        try:
-          print(validNumberList[int(ansEquip)])
-          print(validArmorList[int(ansEquip)])
-        except:
-          print('')
-    user.Equip.append(validArmorList[int(ansEquip)])
-    inv.pop(int(ansEquip))
+    try:
+      user.Equip.append(validArmorList[int(ansEquip)])
+      inv.pop(int(ansEquip))
+      
+    except:
+      print('')
+    
 
 def equipMenu():
     global userClass
