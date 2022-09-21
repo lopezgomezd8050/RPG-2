@@ -103,7 +103,7 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 exp = 0
-inv = [epichelmet]
+inv = [epichelmet,t4a]
 userClass=''
 
 #make enemies a class too
@@ -162,26 +162,26 @@ def userStats():
 
 
 def armorSwapper(slot):
-    ansEquip = ''
+    ansEquip = 'a '
     x=0
+    y=0
     validNumberList = []
     validArmorList = []
+    ansEquipToInv=[]
     for item in inv:
         if item.slot == slot:
             print(item.name + " (" + (str(x)) + ')\n')
             validNumberList.append(x)
             validArmorList.append(item)
+            ansEquipToInv.append(list((x,y)))
             x=x+1
-            
+        y=y+1
+    print(ansEquipToInv)        
     while ansEquip not in str(validNumberList):
       ansEquip = input('what number item would you like to equip?: ')
-      
     try:
       user.Equip.append(validArmorList[int(ansEquip)])#change it to fix how the inventory sets up bc yeah
-      inv.pop(int(ansEquip))
-      #deletes the equivilent item in inv, not what the equvilent is in ansEquip
-      #set up an equilivlent to the inventory value to the ansEquip value
-      #ie (43=8) or smth or like (43,8)
+      inv.pop(int(ansEquipToInv))
     except:
       print('')
     
