@@ -78,7 +78,7 @@ armorTable = [
     t5p, t5a, t5s, t5b, t5w
 ]
 
-user = Person(0, 0, 0, 0, 1, [], [epichelmet], [])
+user = Person(0, 0, 0, 0, 1, [], [], [])
 enemy = Person(0, 0, 0, 0, 1, [], [], [])
 
 location = [
@@ -157,28 +157,32 @@ def userStats():
 
 def armorSwapper(slot):
     ansEquip = 'a '
-    x=1
+    x=0
     validNumberList = []
+    validArmorList = []
     for item in inv:
         if item.slot == slot:
             print(item.name + " (" + (str(x)) + ')\n')
             validNumberList.append(x)
+            validArmorList.append(item)
             x=x+1
-            #print(validNumberList)
+            
     while ansEquip not in str(validNumberList):
         ansEquip = input('what number item would you like to equip?: ')
+        try:
+          print(validNumberList[int(ansEquip)])
+          print(validArmorList[int(ansEquip)])
+        except:
+          print('')
+    user.Equip.append(validArmorList[int(ansEquip)])
+    inv.pop(int(ansEquip))
 
-
-    # for num in validNumberList:
-    #   print(num)
 def equipMenu():
     global userClass
     ans = 'ans'
-    y=0
     print('\nCurrent Equipment:\n')
     for armor in user.Equip:
-      print(user.Equip[y])
-      y=y+1
+      print(armor.name)
     print('\n')
     while ans not in ('h', 'c', 'p', 'a', 'w', 'n'):
         ans = input(
@@ -270,7 +274,7 @@ def loot(source):
                 lootTable()
 
     elif source == 'chest':
-        odds = 5
+        odds = 50
         odds = odds * luck
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
@@ -279,7 +283,7 @@ def loot(source):
                 print(a.name)
 
     elif source == 'trapChest':
-        odds = 7
+        odds = 70
         odds = odds * luck
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
@@ -296,9 +300,8 @@ def chest():
     enterclr()
     print('You found a Treasure Chest while exploring the ' + currentLocation +
           '.')
+    print('You got: ')
     loot("chest")
-    print('You got: ' + 'placeholder kekw')
-
 
 def trapChest():
     enterclr()
