@@ -17,7 +17,7 @@ class Armor:
 class Person:
 
     def __init__(self, Health, CurrHealth, Attack, Mage, Range, Level, Effects,
-                 Equip,Class):
+                 Equip,Class,Exp,Cutter):
         self.Health = Health
         self.CurrHealth = Health
         self.Attack = Attack
@@ -27,6 +27,8 @@ class Person:
         self.Effects = Effects
         self.Equip = Equip
         self.Class = Class
+        self.Exp = Exp
+        self.Cutter = Cutter
 
 
 epichelmet = Armor(1, 'helmet', 99999, 99999, 'epichelmet')
@@ -87,8 +89,8 @@ armorTable = [
     t5p, t5a, t5s, t5b, t5w
 ]
 
-user = Person(0, 0, 0, 0, 0, 1, [], [nh, nc, np, na, nw],'')
-enemy = Person(0, 0, 0, 0, 0, 1, [], [],'')
+user = Person(0, 0, 0, 0, 0, 1, [], [nh, nc, np, na, nw],'',0,100)
+enemy = Person(0, 0, 0, 0, 0, 1, [], [],'',0,100)
 
 location = [
     'plains', 'forest', 'desert', 'tundra', 'mountain', 'mountaintop', 'market'
@@ -105,7 +107,8 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
     "final boss"
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
-exp = 0
+
+
 inv = [epichelmet, t4a]
 
 def enter():
@@ -144,7 +147,7 @@ def userStats():
     print("Effects: " + str(user.Effects))
     print("Money: " + str(money))
     print("Level: " + str(user.Level))
-    print("Exp to next level: " + str(exp) + '\n')
+    print("Exp: "+str(user.exp)+"\nTo next level: " + str(cutter) + '\n')
 
 
 #no armor still exists in inventory but we can fix that later bc i am lazy and i worked on this for long enough
@@ -304,61 +307,51 @@ def loot(source):
                 print(a.name)
 
 
-def expToLevel():
-  global exp
-  cutter=100
-  level=1
-  while exp>=cutter:
-   exp=exp-cutter
-   level=level+1
-   cutter=(int(cutter*1.1))
+def expToLevel(person):
+  while person.Exp>=person.Cutter:
+    person.Exp=person.Exp-person.Cutter
+    person.Level=person.Level+1
+    person.Cutter=(int(person.Cutter*1.1))
+    levelScale(person)
 
 #this works ^^^^^^^
     
-def levelScale():
-  for i in range(user.Level):
-    user.Health=user.Health+5
-    user.Attack=user.Attack+5
-    user.Range=user.Range+5
-    user.Mage=user.Mage+5
-  for i in range(user.Level):
-    user.Health=user.Health+5
-    user.Attack=user.Attack+5
-    user.Range=user.Range+5
-    user.Mage=user.Mage+5
-
-# import math
-# expcalc=99999
-# cutter=100
-# level=1
-# while expcalc>=cutter:
-#   expcalc=expcalc-cutter
-#   level=level+1
-#   cutter=(int(cutter*1.1))
-
-# print('Level: '+str(level))
-# print('Cutter: '+str(cutter))
-# print('ExpCalc: '+str(expcalc))
-
-#test code i made
-
-    
+def levelScale(person):
+    person.Health=user.Health+5
+    person.Attack=user.Attack+5
+    person.Range=user.Range+5
+    person.Mage=user.Mage+5
+ 
 def battle(special):
+    expToLevel(user)
     classPool=['w','a','m']
     enterclr()
+    enemyNamePool=['Qa','Qe','Qi','Qo','Qu','Wa','We','Wi','Wo','Wu','Ra','Re','Ri','Ro','Ru','Ta','Te','Ti','To','Tu','Ya','Ye','Yi','Yo','Yu','Pa','Pe','Pi','Po','Pu','Sa','Se','Si','So','Su','Da','De','Di','Do','Du','Fa','Fe','Fi','Fo','Fu','Ga','Ge','Gi','Go','Gu','Ha','He','Hi','Ho','Hu','Ja','Je','Ji','Jo','Ju','Ka','Ke','Ki','Ko','Ku','La','Le','Li','Lo','Lu','Za','Ze','Zi','Zo','Zu','Xa','Xe','Xi','Xo','Xu','Ca','Ce','Ci','Co','Cu','Va','Ve','Vi','Vo','Vu','Ba','Be','Bi','Bo','Bu','Na','Ne','Ni','No','Nu','Ma','Me','Mi','Mo','Mu',]
+    enemyFullName=random.choice(enemyNamePool)+'-'+random.choice(enemyNamePool).lower()
+    enemyClassStyle=''
     if special == '':
       enemy.Health=user.Health+(random.randint(-50,-25)) 
       enemy.CurrHealth=enemy.Health
-      enemy.Level=user.Level+(random.randint(0,1))
+      enemy.Exp=user.Exp*random.randint(1,3)#if this is a float it crashes
       enemy.Class=random.choice(classPool)
       if enemy.Class=='w':
-        enemy.Attack=0
+        enemy.Attack=random.randint(25,30)#
+        enemy.Range=random.randint(10,15)
+        enemy.Mage=random.randint(10,15)
+        enemyClassStyle=' the Warrior '
       elif enemy.Class=='a':
-        enemy.Range=0
+        enemy.Attack=random.randint(10,15)
+        enemy.Range=random.randint(25,30)#
+        enemy.Mage=random.randint(10,15)
+        enemyClassStyle=' the Archer '
       elif enemy.Class=='m':
-        enemy.Mage=0
+        enemy.Attack=random.randint(10,15)
+        enemy.Range=random.randint(10,15)
+        enemy.Mage=random.randint(25,30)#
+        enemyClassStyle=' the Magician '
       enemy.Effects=[]
       enemy.Equip=[nh,nc,np,na,nw]
+      print(enemyFullName+enemyClassStyle+'drew near!')
       
     elif special == 'trader':
       print('ur dying pepega')
@@ -395,9 +388,9 @@ def shop():
         "what would you like to buy, not buy, or attack the shop owner?", 'b',
         'n', 'a')
     if ans == 'b':
-      print('you enter the shop (yk if there was one) (will add later)')
+      print('\nyou enter the shop (yk if there was one) (will add later)\n')
     elif ans == 'n':
-      print('You kindly decline their offer.')
+      print('\nYou kindly decline their offer.\n')
     elif ans == 'a':
       battle('trader')
 
@@ -474,7 +467,7 @@ def tutorial():
         user.Mage = random.randint(40, 50)
         print("Mage: " + str(user.Mage))
 
-        user.Range = random.randint(100, 120)
+        user.Range = random.randint(110, 120)
         print("Range: " + str(user.Range) + '\n')
     elif user.Class == 'm':
         print('\nYou picked the Magician class!')
@@ -485,7 +478,7 @@ def tutorial():
         user.Attack = random.randint(40, 50)
         print("Attack: " + str(user.Attack))
 
-        user.Mage = random.randint(100, 120)
+        user.Mage = random.randint(110, 120)
         print("Mage: " + str(user.Mage))
 
         user.Range = random.randint(40, 50)
