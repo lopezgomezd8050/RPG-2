@@ -326,7 +326,7 @@ def battle(special):
     expToLevel(user)
     classPool=['w','a','m']
     enterclr()
-    enemyNamePool=['Qa','Qe','Qi','Qo','Qu','Wa','We','Wi','Wo','Wu','Ra','Re','Ri','Ro','Ru','Ta','Te','Ti','To','Tu','Ya','Ye','Yi','Yo','Yu','Pa','Pe','Pi','Po','Pu','Sa','Se','Si','So','Su','Da','De','Di','Do','Du','Fa','Fe','Fi','Fo','Fu','Ga','Ge','Gi','Go','Gu','Ha','He','Hi','Ho','Hu','Ja','Je','Ji','Jo','Ju','Ka','Ke','Ki','Ko','Ku','La','Le','Li','Lo','Lu','Za','Ze','Zi','Zo','Zu','Xa','Xe','Xi','Xo','Xu','Ca','Ce','Ci','Co','Cu','Va','Ve','Vi','Vo','Vu','Ba','Be','Bi','Bo','Bu','Na','Ne','Ni','No','Nu','Ma','Me','Mi','Mo','Mu',]
+    enemyNamePool=['Qa','Qe','Qi','Qo','Qu','Wa','We','Wi','Wo','Wu','Ra','Re','Ri','Ro','Ru','Ta','Te','Ti','To','Tu','Ya','Ye','Yi','Yo','Yu','Pa','Pe','Pi','Po','Pu','Sa','Se','Si','So','Su','Da','De','Di','Do','Du','Fa','Fe','Fi','Fo','Fu','Ga','Ge','Gi','Go','Gu','Ha','He','Hi','Ho','Hu','Ja','Je','Ji','Jo','Ju','Ka','Ke','Ki','Ko','Ku','La','Le','Li','Lo','Lu','Za','Ze','Zi','Zo','Zu','Xa','Xe','Xi','Xo','Xu','Ca','Ce','Ci','Co','Cu','Va','Ve','Vi','Vo','Vu','Ba','Be','Bi','Bo','Bu','Na','Ne','Ni','No','Nu','Ma','Me','Mi','Mo','Mu']
     enemyFullName=random.choice(enemyNamePool)+'-'+random.choice(enemyNamePool).lower()
     enemyClassStyle=''
     if special == '':
