@@ -76,7 +76,9 @@ nh = Armor(0, 'helmet', 0, 0, 'No Helmet')
 nc = Armor(0, 'chestplate', 0, 0, 'No Chestplate')
 np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
 na = Armor(0, 'amulet', 0, 0, 'No Amulet')
-nw = Armor(0, 'wand', 0, 0, 'No Weapon')
+nw = Armor(0, 'sword', 0, 0, 'No Weapon')
+
+noArmored=[nh,nc,np,na,nw]
 
 armorTable = [
     t1h, t1c, t1p, t1a, t1s, t1b, t1w, t2h, t2c, t2p, t2a, t2s, t2b, t2w, t3h,
@@ -159,10 +161,10 @@ def userStats():
     print("Money: " + str(money))
     print("Level: " + str(user.Level))
     print("Exp to next level: " + str(exp) + '\n')
-
+  
 
 def armorSwapper(slot):
-    ansEquip = 'a '
+    ansEquip = ''
     x=0
     y=0
     validNumberList = []
@@ -176,15 +178,29 @@ def armorSwapper(slot):
             ansEquipToInv.append(list((x,y)))
             x=x+1
         y=y+1
-    while ansEquip not in str(validNumberList):
-      ansEquip = input('what number item would you like to equip?: ')
-    try:
-      user.Equip.append(validArmorList[int(ansEquip)])
-      finalEquip=ansEquipToInv[int(ansEquip)]
-      finalEquip.pop(0)
-      inv.pop(finalEquip[0])
-    except:
-      print('')
+    while ansEquip not in (validNumberList):
+      if validNumberList==[]:
+        print('No items of '+slot+' in your inventory.')
+        break
+      try:
+        ansEquip = int(input('what number item would you like to equip?: '))
+        
+        z=0
+        for i in user.Equip:
+          if i.slot == slot:
+            inv.append(i)
+            user.Equip[z]=(validArmorList[int(ansEquip)])
+          z=z+1
+        finalEquip=ansEquipToInv[int(ansEquip)]
+        finalEquip.pop(0)
+        inv.pop(finalEquip[0])
+      except:
+        print('')
+        continue
+      else:
+        break
+    
+    
     
 
 def equipMenu():
