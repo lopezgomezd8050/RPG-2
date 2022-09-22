@@ -16,16 +16,17 @@ class Armor:
 
 class Person:
 
-    def __init__(self, Health, Attack, Mage, Range, Level, Effects, Equip,
-                 Stats):
+    def __init__(self, Health, CurrHealth, Attack, Mage, Range, Level, Effects,
+                 Equip, Stats,Class):
         self.Health = Health
+        self.CurrHealth = Health
         self.Attack = Attack
         self.Mage = Mage
         self.Range = Range
         self.Level = Level
         self.Effects = Effects
         self.Equip = Equip
-        self.Stats = Stats
+        self.Class = Class
 
 
 epichelmet = Armor(1, 'helmet', 99999, 99999, 'epichelmet')
@@ -78,7 +79,7 @@ np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
 na = Armor(0, 'amulet', 0, 0, 'No Amulet')
 nw = Armor(0, 'sword', 0, 0, 'No Weapon')
 
-noArmored=[nh,nc,np,na,nw]
+noArmored = [nh, nc, np, na, nw]
 
 armorTable = [
     t1h, t1c, t1p, t1a, t1s, t1b, t1w, t2h, t2c, t2p, t2a, t2s, t2b, t2w, t3h,
@@ -86,8 +87,8 @@ armorTable = [
     t5p, t5a, t5s, t5b, t5w
 ]
 
-user = Person(0, 0, 0, 0, 1, [], [nh,nc,np,na,nw], [])
-enemy = Person(0, 0, 0, 0, 1, [], [], [])
+user = Person(0, 0, 0, 0, 0, 1, [], [nh, nc, np, na, nw],'')
+enemy = Person(0, 0, 0, 0, 0, 1, [], [],'')
 
 location = [
     'plains', 'forest', 'desert', 'tundra', 'mountain', 'mountaintop', 'market'
@@ -105,24 +106,7 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 exp = 0
-inv = [epichelmet,t4a]
-userClass=''
-
-#make enemies a class too
-class Enemy:
-
-    def __init__(self, strength, type):
-        self.strength = strength
-        self.type = type
-
-
-# remove these later
-enemyMagic = ['Undead Mage', 'Lesser Thrall']
-enemyWarrior = ['Zombie', 'Vampire']
-enemyArcher = ['Skeleton', 'Sharpshooter']
-enemyPool = enemyMagic + enemyWarrior + enemyArcher
-# ^^^
-
+inv = [epichelmet, t4a]
 
 def enter():
     input("Press enter to continue.")
@@ -153,7 +137,7 @@ def yesNo(question):
 
 
 def userStats():
-    print("\nHealth: " + str(user.Health))
+    print("\nHealth: " + str(user.CurrHealth))
     print("Attack: " + str(user.Attack))
     print("Mage: " + str(user.Mage))
     print("Range: " + str(user.Range))
@@ -161,54 +145,54 @@ def userStats():
     print("Money: " + str(money))
     print("Level: " + str(user.Level))
     print("Exp to next level: " + str(exp) + '\n')
-  
 
+
+#no armor still exists in inventory but we can fix that later bc i am lazy and i worked on this for long enough
 def armorSwapper(slot):
     ansEquip = ''
-    x=0
-    y=0
+    x = 0
+    y = 0
     validNumberList = []
     validArmorList = []
-    ansEquipToInv=[]
+    ansEquipToInv = []
     for item in inv:
         if item.slot == slot:
             print(item.name + " (" + (str(x)) + ')\n')
             validNumberList.append(x)
             validArmorList.append(item)
-            ansEquipToInv.append(list((x,y)))
-            x=x+1
-        y=y+1
+            ansEquipToInv.append(list((x, y)))
+            x = x + 1
+        y = y + 1
     while ansEquip not in (validNumberList):
-      if validNumberList==[]:
-        print('No items of '+slot+' in your inventory.')
-        break
-      try:
-        ansEquip = int(input('what number item would you like to equip?: '))
-        
-        z=0
-        for i in user.Equip:
-          if i.slot == slot:
-            inv.append(i)
-            user.Equip[z]=(validArmorList[int(ansEquip)])
-          z=z+1
-        finalEquip=ansEquipToInv[int(ansEquip)]
-        finalEquip.pop(0)
-        inv.pop(finalEquip[0])
-      except:
-        print('')
-        continue
-      else:
-        break
-    
-    
-    
+        if validNumberList == []:
+            print('No items of ' + slot + ' in your inventory.')
+            break
+        try:
+            ansEquip = int(
+                input('what number item would you like to equip?: '))
+
+            z = 0
+            for i in user.Equip:
+                if i.slot == slot:
+                    inv.append(i)
+                    user.Equip[z] = (validArmorList[int(ansEquip)])
+                z = z + 1
+            finalEquip = ansEquipToInv[int(ansEquip)]
+            finalEquip.pop(0)
+            inv.pop(finalEquip[0])
+        except:
+            print('')
+            continue
+        else:
+            break
+
 
 def equipMenu():
     global userClass
     ans = 'ans'
     print('\nCurrent Equipment:\n')
     for armor in user.Equip:
-      print(armor.name)
+        print(armor.name)
     print('\n')
     while ans not in ('h', 'c', 'p', 'a', 'w', 'n'):
         ans = input(
@@ -225,40 +209,42 @@ def equipMenu():
     elif ans == 'a':
         armorSwapper('amulet')
     elif ans == 'w':
-        if userClass == 'w':
-          armorSwapper('sword')
-        elif userClass == 'a':
-          armorSwapper('bow')
-        elif userClass == 'm':
-          armorSwapper('wand')
+        if user.Class == 'w':
+            armorSwapper('sword')
+        elif user.Class == 'a':
+            armorSwapper('bow')
+        elif user.Class == 'm':
+            armorSwapper('wand')
     elif ans == 'n':
         print('Returning')
 
+
 def lootSorter(tier):
-    x=1
+    x = 1
     validLoot = []
     for item in armorTable:
         if item.tier == tier:
             validLoot.append(item)
-            x=x+1
+            x = x + 1
     return random.choice(validLoot)
-          
+
+
 #VV bad code will change later™
 def lootTable():
     lootGotten = ""
     if currentLocation == "plains":
-        lootGotten=lootSorter(1)
+        lootGotten = lootSorter(1)
     elif currentLocation == "forest":
-        lootGotten=lootSorter(2)
+        lootGotten = lootSorter(2)
     elif currentLocation == "desert":
-        lootGotten=lootSorter(3)
+        lootGotten = lootSorter(3)
     elif currentLocation == "tundra":
-        lootGotten=lootSorter(4)
+        lootGotten = lootSorter(4)
     elif currentLocation == "mountain":
-        lootGotten=lootSorter(5)
+        lootGotten = lootSorter(5)
     elif currentLocation == "mountaintop":
-        lootGotten=lootSorter(5)
-      
+        lootGotten = lootSorter(5)
+
     inv.append(lootGotten)
     return lootGotten
 
@@ -300,27 +286,70 @@ def loot(source):
                 lootTable()
 
     elif source == 'chest':
-        odds = 50
+        odds = 5
         odds = odds * luck
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                a=lootTable()
+                a = lootTable()
                 print(a.name)
 
     elif source == 'trapChest':
-        odds = 70
+        odds = 7
         odds = odds * luck
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                a=lootTable()
+                a = lootTable()
                 print(a.name)
 
-def battle():
-    enterclr()
-    print("A(n) " + enemyPool[random.randint(0, 5)] + " drew near!")
 
+def expToLevel():
+  global exp
+  expcalc=exp
+  cutter=100
+  level=1
+  while expcalc>0:
+    expcalc-cutter
+    level=level+1
+    cutter=cutter+(cutter*1.5)
+def levelScale():
+  for i in range(user.Level):
+    user.Health=user.Health+5
+    user.Attack=user.Attack+5
+    user.Range=user.Range+5
+    user.Mage=user.Mage+5
+  for i in range(user.Level):
+    user.Health=user.Health+5
+    user.Attack=user.Attack+5
+    user.Range=user.Range+5
+    user.Mage=user.Mage+5
+
+def battle(special):
+    classPool=['w','a','m']
+    enterclr()
+    if special == '':
+      enemy.Health=user.Health+(random.randint(-50,-25)) 
+      enemy.CurrHealth=enemy.Health
+      enemy.Level=user.Level+(random.randint(0,1))
+      enemy.Class=random.choice(classPool)
+      if enemy.Class=='w':
+        enemy.Attack=0
+      elif enemy.Class=='a':
+        enemy.Range=0
+      elif enemy.Class=='m':
+        enemy.Mage=0
+      enemy.Effects=[]
+      enemy.Equip=[nh,nc,np,na,nw]
+      
+    elif special == 'trader':
+      print('ur dying pepega')
+
+
+
+#expToLevel levelScale and battle are working kinda
+      #like they work but not how i want them to
+      #fix that tmrw
 
 def chest():
     enterclr()
@@ -329,12 +358,13 @@ def chest():
     print('You got: ')
     loot("chest")
 
+
 def trapChest():
     enterclr()
     print('You found a Treasure Chest while exploring the ' + currentLocation +
           '.')
     print('An enemy popped out trying to defend the chest!')
-    battle()
+    battle('')
     loot("trapChest")
 
 
@@ -346,7 +376,12 @@ def shop():
     ans = question(
         "what would you like to buy, not buy, or attack the shop owner?", 'b',
         'n', 'a')
-
+    if ans == 'b':
+      print('you enter the shop (yk if there was one) (will add later)')
+    elif ans == 'n':
+      print('You kindly decline their offer.')
+    elif ans == 'a':
+      battle('trader')
 
 def finalBoss():
     print("ur gonna die pepega")
@@ -369,7 +404,7 @@ def randomEvent(odds):
         if rolls == 1:
             event = randomEvents[random.randint(0, eventRegulator)]
             if event == "battle":
-                battle()
+                battle('')
                 event = 0
             if event == "chest":
                 chest()
@@ -386,20 +421,19 @@ def randomEvent(odds):
         elif rolls == 0:
             noEvent()
 
-        #this code currently forces 2 events, leading to the event being repeated twice if there isnt a roll for it
-        #fixed
-
-
+#Warrior strong against Archers
+#Rangers strong against Magicians
+#Magicians strong against Warriors
 def tutorial():
-    global userClass
     print('Welcome to rpg')
-    userClass = question(
+    user.Class = question(
         'Do you want to be a Warrior, an Archer, or a Magician?', 'w', 'a',
         'm')
-    if userClass == 'w':
+    if user.Class == 'w':
         print('\nYou picked the Warrior class!')
 
         user.Health = random.randint(100, 120)
+        user.CurrHealth = user.Health
         print("\nHealth: " + str(user.Health))
 
         user.Attack = random.randint(110, 120)
@@ -410,12 +444,12 @@ def tutorial():
 
         user.Range = random.randint(40, 50)
         print("Range: " + str(user.Range) + '\n')
-    elif userClass == 'a':
+    elif user.Class == 'a':
         print('\nYou picked the Archer class!')
 
         user.Health = random.randint(100, 120)
         print("\nHealth: " + str(user.Health))
-
+        user.CurrHealth = user.Health
         user.Attack = random.randint(40, 50)
         print("Attack: " + str(user.Attack))
 
@@ -424,12 +458,12 @@ def tutorial():
 
         user.Range = random.randint(100, 120)
         print("Range: " + str(user.Range) + '\n')
-    elif userClass == 'm':
+    elif user.Class == 'm':
         print('\nYou picked the Magician class!')
 
         user.Health = random.randint(100, 120)
         print("\nHealth: " + str(user.Health))
-
+        user.CurrHealth = user.Health
         user.Attack = random.randint(40, 50)
         print("Attack: " + str(user.Attack))
 
@@ -465,7 +499,7 @@ def dayCycle():
             if ans == "i":
                 print("\n")
                 for item in inv:
-                  print(item.name)
+                    print(item.name)
                 ans = "ans"
             if ans == 'e':
                 print("\nYou venture off to explore the " + currentLocation +
