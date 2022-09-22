@@ -17,7 +17,7 @@ class Armor:
 class Person:
 
     def __init__(self, Health, CurrHealth, Attack, Mage, Range, Level, Effects,
-                 Equip, Stats,Class):
+                 Equip,Class):
         self.Health = Health
         self.CurrHealth = Health
         self.Attack = Attack
@@ -306,13 +306,15 @@ def loot(source):
 
 def expToLevel():
   global exp
-  expcalc=exp
   cutter=100
   level=1
-  while expcalc>0:
-    expcalc-cutter
-    level=level+1
-    cutter=cutter+(cutter*1.5)
+  while exp>=cutter:
+   exp=exp-cutter
+   level=level+1
+   cutter=(int(cutter*1.1))
+
+#this works ^^^^^^^
+    
 def levelScale():
   for i in range(user.Level):
     user.Health=user.Health+5
@@ -325,6 +327,22 @@ def levelScale():
     user.Range=user.Range+5
     user.Mage=user.Mage+5
 
+# import math
+# expcalc=99999
+# cutter=100
+# level=1
+# while expcalc>=cutter:
+#   expcalc=expcalc-cutter
+#   level=level+1
+#   cutter=(int(cutter*1.1))
+
+# print('Level: '+str(level))
+# print('Cutter: '+str(cutter))
+# print('ExpCalc: '+str(expcalc))
+
+#test code i made
+
+    
 def battle(special):
     classPool=['w','a','m']
     enterclr()
