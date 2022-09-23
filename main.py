@@ -147,7 +147,7 @@ def userStats():
     print("Effects: " + str(user.Effects))
     print("Money: " + str(money))
     print("Level: " + str(user.Level))
-    print("Exp: "+str(user.exp)+"\nTo next level: " + str(cutter) + '\n')
+    print("Exp: "+str(user.Exp)+"\nTo next level: " + str(user.Cutter) + '\n')
 
 
 #no armor still exists in inventory but we can fix that later bc i am lazy and i worked on this for long enough
@@ -307,6 +307,23 @@ def loot(source):
                 print(a.name)
 
 
+def ArmorToPerson(person):#this will add more health every time it is run, maybe this should be put in the armor equip stuff but every time it runs it adds more and more health
+  attackStyle=0
+  if person.Class=='w':
+    attackStyle=person.Attack
+  elif person.Class=='a':
+    attackStyle=person.Range
+  elif person.Class=='m':
+    attackStyle=person.Mage
+  for i in person.Equip:
+    person.Health=person.Health+i.Health
+    attackStyle=attackStyle+i.Damage
+  if person.Class=='w':
+    person.Attack=attackStyle
+  elif person.Class=='a':
+    person.Range=attackStyle
+  elif person.Class=='m':
+    person.Mage=attackStyle
 def expToLevel(person):
   while person.Exp>=person.Cutter:
     person.Exp=person.Exp-person.Cutter
@@ -314,21 +331,30 @@ def expToLevel(person):
     person.Cutter=(int(person.Cutter*1.1))
     levelScale(person)
 
-#this works ^^^^^^^
-    
 def levelScale(person):
-    person.Health=user.Health+5
-    person.Attack=user.Attack+5
-    person.Range=user.Range+5
-    person.Mage=user.Mage+5
- 
+    person.Health=person.Health+5
+    person.Attack=person.Attack+5
+    person.Range=person.Range+5
+    person.Mage=person.Mage+5
+
+def battleCalc():
+  attackStyle=0
+  if user.Class=='w':
+    attackStyle=user.Attack
+  elif user.Class=='a':
+    attackStyle=user.Range
+  elif user.Class=='m':
+    attackStyle=user.Mage
+  enemy.CurrHealth=int(enemy.CurrHealth-(attackStyle*0.20))#this still doesnt work with class affinites but i can change that later
 def battle(special):
     expToLevel(user)
+    ArmorToPerson(user)
     classPool=['w','a','m']
     enterclr()
     enemyNamePool=['Qa','Qe','Qi','Qo','Qu','Wa','We','Wi','Wo','Wu','Ra','Re','Ri','Ro','Ru','Ta','Te','Ti','To','Tu','Ya','Ye','Yi','Yo','Yu','Pa','Pe','Pi','Po','Pu','Sa','Se','Si','So','Su','Da','De','Di','Do','Du','Fa','Fe','Fi','Fo','Fu','Ga','Ge','Gi','Go','Gu','Ha','He','Hi','Ho','Hu','Ja','Je','Ji','Jo','Ju','Ka','Ke','Ki','Ko','Ku','La','Le','Li','Lo','Lu','Za','Ze','Zi','Zo','Zu','Xa','Xe','Xi','Xo','Xu','Ca','Ce','Ci','Co','Cu','Va','Ve','Vi','Vo','Vu','Ba','Be','Bi','Bo','Bu','Na','Ne','Ni','No','Nu','Ma','Me','Mi','Mo','Mu']
     enemyFullName=random.choice(enemyNamePool)+'-'+random.choice(enemyNamePool).lower()
     enemyClassStyle=''
+    ans='ans'
     if special == '':
       enemy.Health=user.Health+(random.randint(-50,-25)) 
       enemy.CurrHealth=enemy.Health
@@ -351,11 +377,39 @@ def battle(special):
         enemyClassStyle=' the Magician '
       enemy.Effects=[]
       enemy.Equip=[nh,nc,np,na,nw]
+      expToLevel(enemy)
       print(enemyFullName+enemyClassStyle+'drew near!')
-      
     elif special == 'trader':
       print('ur dying pepega')
-
+    while enemy.CurrHealth>=0:
+        print('\nCurrent Standings:\n\nYour Health: '+str(user.CurrHealth)+'\n'+enemyFullName+'\'s Health: '+str(enemy.CurrHealth)+'\n')
+        ans=question('\nWould you like to:\n\nAttack '+enemyFullName+'\nCheck Your Inventory \nFlee\n','a','i','f')
+        
+        if ans == 'a':
+          if user.Class == 'w':
+            print('You struck '+enemyFullName)
+            battleCalc()
+          elif user.Class == 'a':
+            print('You shot '+enemyFullName)
+            battleCalc()
+          elif user.Class == 'm':
+            print('You casted a spell on '+enemyFullName)
+            battleCalc()
+          ans='ans'
+        elif ans == 'i':
+          print('realerreal')
+          ans='ans'
+        elif ans == 'f':
+          x=random.randint(0,1)
+          if x == 1:
+            print('You Fled Sucessfully!')
+            break
+        
+          else:
+            print('ur stuck here')
+            ans='ans'
+        enterclr()
+    print('bro died lol')
 
 
 #expToLevel levelScale and battle are working kinda
