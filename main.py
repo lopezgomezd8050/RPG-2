@@ -381,7 +381,10 @@ def battleCalc(hit):
         print('You damaged the enemy for ' + str(int((attackStyle * 0.20))) +
               ' Health')
     else:
+      if hit == 'flee':
         print('You tried to flee but failed!')
+      else:
+        print('inv test')
     user.CurrHealth = int(user.CurrHealth - (enemyAttack * 0.10))
     #this also doesnt work with afininites
 
@@ -463,39 +466,44 @@ def battle(special):
                     break
             ans = 'ans'
         elif ans == 'i':
+          #the code comes from the armor code, so some names might be messy 
             x = 0
             y = 0
             validNumberList = []
             validArmorList = []
             ansEquipToInv = []
-            print("\n")
-            for item in inv:
-              print(item.name)
-            print('\n')
             invAns='abc'
+            numAns=''
+            for item in inv:
+              if item.slot == 'consumable':
+                print(item.name + " (" + (str(x)) + ')\n')
+                validNumberList.append(x)
+                validArmorList.append(item)
+                ansEquipToInv.append(list((x, y)))
+                x = x + 1
+              y = y + 1
             while invAns not in ("e", "c"):
               invAns = input('Would you like to eat items to heal or close inventory? (e)(c):').lower()
             if invAns == 'e':
-              for item in inv:
-                if item.slot == 'consumable':
-                  print(item.name + " (" + (str(x)) + ')\n')
-                  validNumberList.append(x)
-                  validArmorList.append(item)
-                  ansEquipToInv.append(list((x, y)))
-                  x = x + 1
-              y = y + 1
-              battleCalc('no')#fix this
-            elif invAns == 'c':
-              print('Closing Inventory')
+              while numAns not in (validNumberList):
+                try:
+                  numAns = int(input('what number item would you like to equip?: '))
+                except:
+                  print('')
+              finalEquip = ansEquipToInv[int(numAns)]
+              finalEquip.pop(0)
+              inv.pop(finalEquip[0])
+            battleCalc('inv')#currently items dont do anything so add that here
+            if invAns == 'c':
+                print('Closing Inventory')
         elif ans == 'f':
             x = random.randint(0, 1)
             if x == 1:
                 print('You Fled Sucessfully!')
                 fleeCheck = 1
                 break
-
             else:
-                battleCalc('no')
+                battleCalc('flee')
                 ans = 'ans'
         enterclr()
     print('Battle End')
