@@ -12,7 +12,15 @@ class Armor:
         self.health = health
         self.damage = damage
         self.name = name
+      
+class Consumables:
 
+    def __init__(self, tier, slot, stat, increase, name):
+        self.tier = tier
+        self.slot = slot
+        self.stat = stat
+        self.increase = increase
+        self.name = name
 
 class Person:
 
@@ -81,6 +89,12 @@ np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
 na = Armor(0, 'amulet', 0, 0, 'No Amulet')
 nw = Armor(0, 'sword', 0, 0, 'No Weapon')
 
+hp1=Consumables(1,'consumable','Health',20,'Health Potion 1')
+hp2=Consumables(2,'consumable','Health',50,'Health Potion 2')
+hp3=Consumables(3,'consumable','Health',100,'Health Potion 3')
+hp4=Consumables(4,'consumable','Health',250,'Health Potion 4')
+hp5=Consumables(5,'consumable','Health',600,'Health Potion 5')
+
 noArmored = [nh, nc, np, na, nw]
 
 armorTable = [
@@ -108,7 +122,7 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 
-inv = [epichelmet, t4a]
+inv = [epichelmet,t4a,hp3]
 
 
 def enter():
@@ -345,7 +359,7 @@ def levelScale(person):
     #print('you got a level')
 
 
-def battleCalc():
+def battleCalc(hit):
     attackStyle = 0
     enemyAttack = 0
     if user.Class == 'w':
@@ -361,10 +375,13 @@ def battleCalc():
         enemyAttack = enemy.Range
     elif enemy.Class == 'm':
         enemyAttack = enemy.Mage
-    enemy.CurrHealth = int(enemy.CurrHealth - (attackStyle * 0.20))
-    #this still doesnt work with class affinites but i can change that later
-    print('You damaged the enemy for ' + str(int((attackStyle * 0.20))) +
-          ' Health')
+    if hit == 'yes':
+        enemy.CurrHealth = int(enemy.CurrHealth - (attackStyle * 0.20))
+        #this still doesnt work with class affinites but i can change that later
+        print('You damaged the enemy for ' + str(int((attackStyle * 0.20))) +
+              ' Health')
+    else:
+        print('You tried to flee but failed!')
     user.CurrHealth = int(user.CurrHealth - (enemyAttack * 0.10))
     #this also doesnt work with afininites
 
@@ -373,6 +390,7 @@ def battle(special):
     expToLevel(user)
     ArmorToPerson(user)
     classPool = ['w', 'a', 'm']
+    fleeCheck = 0
     if user.CurrHealth > user.Health:  #put this here and in the inventory setup
         user.CurrHealth = user.Health
     enterclr()
@@ -430,41 +448,62 @@ def battle(special):
         if ans == 'a':
             if user.Class == 'w':
                 print('You struck ' + enemyFullName)
-                battleCalc()
+                battleCalc('yes')
                 if user.CurrHealth <= 0:
                     break
             elif user.Class == 'a':
                 print('You shot ' + enemyFullName)
-                battleCalc()
+                battleCalc('yes')
                 if user.CurrHealth <= 0:
                     break
             elif user.Class == 'm':
                 print('You casted a spell on ' + enemyFullName)
-                battleCalc()
+                battleCalc('yes')
                 if user.CurrHealth <= 0:
                     break
             ans = 'ans'
         elif ans == 'i':
-            print('realerreal')
-            ans = 'ans'
+            x = 0
+            y = 0
+            validNumberList = []
+            validArmorList = []
+            ansEquipToInv = []
+            print("\n")
+            for item in inv:
+              print(item.name)
+            print('\n')
+            invAns='abc'
+            while invAns not in ("e", "c"):
+              invAns = input('Would you like to eat items to heal or close inventory? (e)(c):').lower()
+            if invAns == 'e':
+              for item in inv:
+                if item.slot == 'consumable':
+                  print(item.name + " (" + (str(x)) + ')\n')
+                  validNumberList.append(x)
+                  validArmorList.append(item)
+                  ansEquipToInv.append(list((x, y)))
+                  x = x + 1
+              y = y + 1
+              battleCalc('no')#fix this
+            elif invAns == 'c':
+              print('Closing Inventory')
         elif ans == 'f':
             x = random.randint(0, 1)
             if x == 1:
                 print('You Fled Sucessfully!')
+                fleeCheck = 1
                 break
 
             else:
-                print('ur stuck here')
+                battleCalc('no')
                 ans = 'ans'
         enterclr()
-    print('bro died lol')
-    user.Exp = user.Exp + 25 + (user.Exp * 1.3)  #testing this lol
+    print('Battle End')
+    if fleeCheck == 0:
+        user.Exp = user.Exp + 25 + (user.Exp * 0.3) + (
+            user.Level * 50
+        )  #testing this lol #change this later bc its too op
     expToLevel(user)
-
-
-#expToLevel levelScale and battle are working kinda
-#like they work but not how i want them to
-#fix that tmrw
 
 
 def chest():
