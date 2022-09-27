@@ -359,7 +359,7 @@ def levelScale(person):
     #print('you got a level')
 
 
-def battleCalc(hit):
+def battleCalc(hit,name):
     attackStyle = 0
     enemyAttack = 0
     if user.Class == 'w':
@@ -378,23 +378,28 @@ def battleCalc(hit):
     if hit == 'yes':
         enemy.CurrHealth = int(enemy.CurrHealth - (attackStyle * 0.20))
         #this still doesnt work with class affinites but i can change that later
-        print('You damaged the enemy for ' + str(int((attackStyle * 0.20))) +
+        print('You damaged '+name+' for ' + str(int((attackStyle * 0.20))) +
               ' Health')
     else:
       if hit == 'flee':
         print('You tried to flee but failed!')
       else:
-        print('inv test')
-    user.CurrHealth = int(user.CurrHealth - (enemyAttack * 0.10))
+        print('')
+    user.CurrHealth = int(user.CurrHealth - (enemyAttack * 0.20))
+    print(name+' damaged you for '+str(int(enemyAttack * 0.20)) +' Health')
     #this also doesnt work with afininites
-
+def consumableCalc(health):
+  user.CurrHealth=user.CurrHealth+health.increase
+  print('\nYou healed for '+str(health.increase)+' Health.')
+  if user.CurrHealth>user.Health:
+    user.CurrHealth=user.Health
 
 def battle(special):
     expToLevel(user)
     ArmorToPerson(user)
     classPool = ['w', 'a', 'm']
     fleeCheck = 0
-    if user.CurrHealth > user.Health:  #put this here and in the inventory setup
+    if user.CurrHealth > user.Health:
         user.CurrHealth = user.Health
     enterclr()
     enemyNamePool = [
@@ -408,7 +413,7 @@ def battle(special):
         'Cu', 'Va', 'Ve', 'Vi', 'Vo', 'Vu', 'Ba', 'Be', 'Bi', 'Bo', 'Bu', 'Na',
         'Ne', 'Ni', 'No', 'Nu', 'Ma', 'Me', 'Mi', 'Mo', 'Mu'
     ]
-    enemyFullName = random.choice(enemyNamePool) + '-' + random.choice(
+    enemyFullName = random.choice(enemyNamePool) + '\'' + random.choice(
         enemyNamePool).lower()
     enemyClassStyle = ''
     ans = 'ans'
@@ -416,9 +421,9 @@ def battle(special):
         enemy.Health = user.Health + (random.randint(-50, -25))
         enemy.CurrHealth = enemy.Health
         enemy.Exp = user.Exp * random.randint(
-            1, 3)  #if this is a float it crashes
+            1, 2)  #if this is a float it crashes
         enemy.Class = random.choice(classPool)
-        if enemy.Class == 'w':
+        if enemy.Class == 'w':#This doesnt compensate for armor based bonuses
             enemy.Attack = random.randint(25, 30)  #
             enemy.Range = random.randint(10, 15)
             enemy.Mage = random.randint(10, 15)
@@ -439,11 +444,11 @@ def battle(special):
         print(enemyFullName + enemyClassStyle + 'drew near!')
     elif special == 'trader':
         print('ur dying pepega')
-    while enemy.CurrHealth > 0:
+    while enemy.CurrHealth > 0 and user.CurrHealth > 0:
 
-        print('\nCurrent Standings:\n\nYour Health: ' + str(user.CurrHealth) +
-              '\n' + enemyFullName + '\'s Health: ' + str(enemy.CurrHealth) +
-              '\n')
+        print('\nCurrent Standings:\n\nYour Health: ' + str(user.CurrHealth) +'/' +str(user.Health)+
+              '\n' + enemyFullName + '\'s Health: ' + str(enemy.CurrHealth)+'/' +str(enemy.Health)+
+              '\n')#for some reason enemy health is messy so ehh
         ans = question(
             '\nWould you like to:\n\nAttack ' + enemyFullName +
             '\nCheck Your Inventory \nFlee\n', 'a', 'i', 'f')
@@ -451,49 +456,54 @@ def battle(special):
         if ans == 'a':
             if user.Class == 'w':
                 print('You struck ' + enemyFullName)
-                battleCalc('yes')
+                battleCalc('yes',enemyFullName)
                 if user.CurrHealth <= 0:
                     break
             elif user.Class == 'a':
                 print('You shot ' + enemyFullName)
-                battleCalc('yes')
+                battleCalc('yes',enemyFullName)
                 if user.CurrHealth <= 0:
                     break
             elif user.Class == 'm':
                 print('You casted a spell on ' + enemyFullName)
-                battleCalc('yes')
+                battleCalc('yes',enemyFullName)
                 if user.CurrHealth <= 0:
                     break
             ans = 'ans'
         elif ans == 'i':
-          #the code comes from the armor code, so some names might be messy 
             x = 0
             y = 0
             validNumberList = []
-            validArmorList = []
-            ansEquipToInv = []
+            validItemList = []
+            ansItemToInv = []
             invAns='abc'
             numAns=''
+            print('\n')
             for item in inv:
               if item.slot == 'consumable':
                 print(item.name + " (" + (str(x)) + ')\n')
                 validNumberList.append(x)
-                validArmorList.append(item)
-                ansEquipToInv.append(list((x, y)))
+                validItemList.append(item)
+                ansItemToInv.append(list((x, y)))
                 x = x + 1
               y = y + 1
             while invAns not in ("e", "c"):
               invAns = input('Would you like to eat items to heal or close inventory? (e)(c):').lower()
+              if invAns== 'e' and x==0:
+                print('\n No consumable items in your inventory.')
+                invAns=''
+                break
             if invAns == 'e':
               while numAns not in (validNumberList):
                 try:
-                  numAns = int(input('what number item would you like to equip?: '))
+                  numAns = int(input('what number item would you like to consume: '))
                 except:
                   print('')
-              finalEquip = ansEquipToInv[int(numAns)]
-              finalEquip.pop(0)
-              inv.pop(finalEquip[0])
-            battleCalc('inv')#currently items dont do anything so add that here
+              finalItem = ansItemToInv[int(numAns)]
+              consumableCalc(validItemList[int(numAns)])
+              finalItem.pop(0)
+              inv.pop(finalItem[0])
+            battleCalc('inv',enemyFullName)
             if invAns == 'c':
                 print('Closing Inventory')
         elif ans == 'f':
@@ -503,7 +513,7 @@ def battle(special):
                 fleeCheck = 1
                 break
             else:
-                battleCalc('flee')
+                battleCalc('flee',enemyFullName)
                 ans = 'ans'
         enterclr()
     print('Battle End')
@@ -672,7 +682,7 @@ def dayCycle():
                 randomEvent(2)
             if ans == 'd':
                 print("\nYou decide not to explore the " + currentLocation +
-                      ".\n")
+                      ".\n")#make you heal here for resting based on a % of total health
                 randomEvent(1)
             if ans == 'a':
                 equipMenu()
