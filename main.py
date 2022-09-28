@@ -4,6 +4,16 @@ import time
 import math
 
 
+#things to do
+
+#fix the no armor bug
+#enemy total health is glitchy
+#add shop for the trader
+#fix the armor stats
+#add more items and fix the item pool
+
+#make the xp and enemy progression fair
+
 class Armor:
 
     def __init__(self, tier, slot, health, damage, name):
@@ -15,12 +25,13 @@ class Armor:
       
 class Consumables:
 
-    def __init__(self, tier, slot, stat, increase, name):
+    def __init__(self, tier, slot, stat, increase, name,type):
         self.tier = tier
         self.slot = slot
         self.stat = stat
         self.increase = increase
         self.name = name
+        self.type = type
 
 class Person:
 
@@ -89,12 +100,38 @@ np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
 na = Armor(0, 'amulet', 0, 0, 'No Amulet')
 nw = Armor(0, 'sword', 0, 0, 'No Weapon')
 
-hp1=Consumables(1,'consumable','Health',20,'Health Potion 1')
-hp2=Consumables(2,'consumable','Health',50,'Health Potion 2')
-hp3=Consumables(3,'consumable','Health',100,'Health Potion 3')
-hp4=Consumables(4,'consumable','Health',250,'Health Potion 4')
-hp5=Consumables(5,'consumable','Health',600,'Health Potion 5')
 
+
+hp1=Consumables(1,'consumable','Health',20,'Health Potion 1','health')
+hp2=Consumables(2,'consumable','Health',50,'Health Potion 2','heatlh')
+hp3=Consumables(3,'consumable','Health',100,'Health Potion 3','health')
+hp4=Consumables(4,'consumable','Health',250,'Health Potion 4','health')
+hp5=Consumables(5,'consumable','Health',600,'Health Potion 5','health')
+
+m1=Consumables(1,'consumable','Mage',10,'Magic Potion 1','magic')
+w1=Consumables(1,'consumable','Attack',10,'Attack Potion 1','range')
+a1=Consumables(1,'consumable','Range',10,'Attack Potion 1','attack')
+o1=Consumables(1,'consumable','Mage',10,'Overload Potion 1','all')
+
+m2=Consumables(2,'consumable','Mage',20,'Magic Potion 2','magic')
+w2=Consumables(2,'consumable','Attack',20,'Attack Potion 2','range')
+a2=Consumables(2,'consumable','Range',20,'Attack Potion 2','attack')
+o2=Consumables(2,'consumable','Mage',20,'Overload Potion 2','all')
+
+m3=Consumables(3,'consumable','Mage',50,'Magic Potion 3','magic')
+w3=Consumables(3,'consumable','Attack',50,'Attack Potion 3','range')
+a3=Consumables(3,'consumable','Range',50,'Attack Potion 3','attack')
+o3=Consumables(3,'consumable','Mage',50,'Overload Potion 3','all')
+
+m4=Consumables(4,'consumable','Mage',100,'Magic Potion 4','magic')
+w4=Consumables(4,'consumable','Attack',100,'Attack Potion 4','range')
+a4=Consumables(4,'consumable','Range',100,'Attack Potion 4','attack')
+o4=Consumables(4,'consumable','Mage',100,'Overload Potion 4','all')
+
+m5=Consumables(5,'consumable','Mage',300,'Magic Potion 5','magic')
+w5=Consumables(5,'consumable','Attack',300,'Attack Potion 5','range')
+a5=Consumables(5,'consumable','Range',300,'Attack Potion 5','attack')
+o5=Consumables(5,'consumable','Mage',300,'Overload Potion 5','all')
 noArmored = [nh, nc, np, na, nw]
 
 armorTable = [
@@ -102,6 +139,8 @@ armorTable = [
     t3c, t3p, t3a, t3s, t3b, t3w, t4h, t4c, t4p, t4a, t4s, t4b, t4w, t5h, t5c,
     t5p, t5a, t5s, t5b, t5w
 ]
+
+consumableTable = [hp1,hp2,hp3,hp4,hp5,m1,m2,m3,m4,m5,w1,w2,w3,w4,w5,a1,a2,a3,a4,a5,o1,o2,o3,o4,o5]
 
 user = Person(0, 0, 0, 0, 0, 1, [], [nh, nc, np, na, nw], '', 0, 100)
 enemy = Person(0, 0, 0, 0, 0, 1, [], [], '', 0, 100)
@@ -122,7 +161,7 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 
-inv = [epichelmet,t4a,hp3]
+inv = [epichelmet,t4a,hp3,o4,a2]
 
 
 def enter():
@@ -238,12 +277,15 @@ def equipMenu():
 
 
 def lootSorter(tier):
-    x = 1
     validLoot = []
     for item in armorTable:
         if item.tier == tier:
             validLoot.append(item)
-            x = x + 1
+    for item in consumableTable:
+        if item.tier == tier:
+            validLoot.append(item)
+            validLoot.append(item)
+            validLoot.append(item)
     return random.choice(validLoot)
 
 
@@ -274,38 +316,49 @@ def loot(source):
     if source == 'battle':
         odds = 3
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
                 lootTable()
+                a = lootTable()
+                print(a.name)
 
     elif source == 'battleStrong':
         odds = 6
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
                 lootTable()
+                a = lootTable()
+                print(a.name)
 
     elif source == 'battleBoss':
         odds = 10
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                lootTable()
+                a = lootTable()
+                print(a.name)
 
     elif source == "battleFinal":
         odds = 25
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
-                lootTable()
+                a = lootTable()
+                print(a.name)
 
     elif source == 'chest':
         odds = 5
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
@@ -315,6 +368,7 @@ def loot(source):
     elif source == 'trapChest':
         odds = 7
         odds = odds * luck
+        print('You found:')
         for i in range(int(odds)):
             rolls = random.randint(0, 1)
             if rolls == 1:
@@ -362,6 +416,8 @@ def levelScale(person):
 def battleCalc(hit,name):
     attackStyle = 0
     enemyAttack = 0
+    userDamageMult = 0.20
+    enemyDamageMult = 0.20
     if user.Class == 'w':
         attackStyle = user.Attack
     elif user.Class == 'a':
@@ -375,25 +431,98 @@ def battleCalc(hit,name):
         enemyAttack = enemy.Range
     elif enemy.Class == 'm':
         enemyAttack = enemy.Mage
+#Warrior strong against Archers
+#Rangers strong against Magicians
+#Magicians strong against Warriors
+    if user.Class == 'w':
+      if enemy.Class == 'w':
+        userDamageMult = 0.20
+      elif enemy.Class == 'a':
+        userDamageMult = 0.30
+      elif enemy.Class == 'm':
+        userDamageMult = 0.15
+    elif user.Class == 'a':
+      if enemy.Class == 'w':
+        userDamageMult = 0.15
+      elif enemy.Class == 'a':
+        userDamageMult = 0.20
+      elif enemy.Class == 'm':
+        userDamageMult = 0.30
+    elif user.Class == 'm':
+      if enemy.Class == 'w':
+        userDamageMult = 0.30
+      elif enemy.Class == 'a':
+        userDamageMult = 0.15
+      elif enemy.Class == 'm':
+        userDamageMult = 0.20
+
+
+    if enemy.Class == 'w':
+      if user.Class == 'w':
+        enemyDamageMult = 0.20
+      elif user.Class == 'a':
+        enemyDamageMult = 0.30
+      elif user.Class == 'm':
+        enemyDamageMult = 0.15
+    elif enemy.Class == 'a':
+      if user.Class == 'w':
+        enemyDamageMult = 0.15
+      elif user.Class == 'a':
+        enemyDamageMult = 0.20
+      elif user.Class == 'm':
+        enemyDamageMult = 0.30
+    elif enemy.Class == 'm':
+      if user.Class == 'w':
+        enemyDamageMult = 0.30
+      elif user.Class == 'a':
+        enemyDamageMult = 0.15
+      elif user.Class == 'm':
+        enemyDamageMult = 0.20
+
+
+
+  
     if hit == 'yes':
-        enemy.CurrHealth = int(enemy.CurrHealth - (attackStyle * 0.20))
-        #this still doesnt work with class affinites but i can change that later
-        print('You damaged '+name+' for ' + str(int((attackStyle * 0.20))) +
+        enemy.CurrHealth = int(enemy.CurrHealth - (attackStyle * userDamageMult))
+      
+        print('You damaged '+name+' for ' + str(int((attackStyle * userDamageMult))) +
               ' Health')
     else:
       if hit == 'flee':
         print('You tried to flee but failed!')
       else:
         print('')
-    user.CurrHealth = int(user.CurrHealth - (enemyAttack * 0.20))
-    print(name+' damaged you for '+str(int(enemyAttack * 0.20)) +' Health')
-    #this also doesnt work with afininites
-def consumableCalc(health):
-  user.CurrHealth=user.CurrHealth+health.increase
-  print('\nYou healed for '+str(health.increase)+' Health.')
-  if user.CurrHealth>user.Health:
-    user.CurrHealth=user.Health
+    user.CurrHealth = int(user.CurrHealth - (enemyAttack * enemyDamageMult))
+    print(name+' damaged you for '+str(int(enemyAttack * enemyDamageMult)) +' Health')
 
+  
+def consumableCalc(type):
+  if type.type == 'health':
+    healthHealed=0
+    healthInc=type.increase
+    healthPrevious=user.CurrHealth            
+    user.CurrHealth=int(user.CurrHealth*healthInc)
+    if user.CurrHealth>user.Health:
+      healthHealed=user.Health-healthPrevious
+      user.CurrHealth=user.Health
+    else:
+      healthHealed=int(user.CurrHealth*healthInc-user.CurrHealth)
+    print('\nYou healed for '+str(healthHealed)+' Health.')
+  elif type.type == 'magic':
+    user.Mage=user.Mage+type.increase
+    print('Your magic stat increased by '+str(type.increase)+'.')
+  elif type.type == 'range':
+    user.Range=user.Range+type.increase
+    print('Your ranged stat increased by '+str(type.increase)+'.')
+  elif type.type == 'attack':
+    user.Attack=user.Attack+type.increase
+    print('Your attack stat increased by '+str(type.increase)+'.')
+  elif type.type == 'all':
+    user.Range=user.Range+type.increase
+    user.Mage=user.Mage+type.increase
+    user.Attack=user.Attack+type.increase
+    print('All your combat stats increased by '+str(type.increase)+'.')
+  #total health, mage, range, attack, mixes
 def battle(special):
     expToLevel(user)
     ArmorToPerson(user)
@@ -517,6 +646,7 @@ def battle(special):
                 ans = 'ans'
         enterclr()
     print('Battle End')
+    loot('battle')#fhskjfhsdkjfhsdkj
     if fleeCheck == 0:
         user.Exp = user.Exp + 25 + (user.Exp * 0.3) + (
             user.Level * 50
@@ -528,7 +658,6 @@ def chest():
     enterclr()
     print('You found a Treasure Chest while exploring the ' + currentLocation +
           '.')
-    print('You got: ')
     loot("chest")
 
 
@@ -536,7 +665,7 @@ def trapChest():
     enterclr()
     print('You found a Treasure Chest while exploring the ' + currentLocation +
           '.')
-    print('An enemy popped out trying to defend the chest!')
+    print('An enemy drew near trying to defend the chest!')
     battle('')
     loot("trapChest")
 
@@ -546,6 +675,7 @@ def shop():
     print('You stumbled across a wandering trader')
     #add the ability to attack the shop owner later but still add it
     #make it like a mini bossfight
+    #or like a harder final boss
     ans = question(
         "what would you like to buy, not buy, or attack the shop owner?", 'b',
         'n', 'a')
@@ -596,9 +726,7 @@ def randomEvent(odds):
             noEvent()
 
 
-#Warrior strong against Archers
-#Rangers strong against Magicians
-#Magicians strong against Warriors
+
 def tutorial():
     print('Welcome to rpg')
     user.Class = question(
@@ -656,7 +784,6 @@ def tutorial():
 def dayCycle():
     global day
     tutorial()
-    #while like health is above 0 or smth
     while user.CurrHealth > 0:
         print("It is day " + str(day) + " in your journey.")
         print("You are currently in the " + currentLocation + ".")
@@ -681,8 +808,17 @@ def dayCycle():
                       ".\n")
                 randomEvent(2)
             if ans == 'd':
-                print("\nYou decide not to explore the " + currentLocation +
-                      ".\n")#make you heal here for resting based on a % of total health
+                healthHealed=0
+                healthMult=1.2
+                healthPrevious=user.CurrHealth
+              
+                user.CurrHealth=int(user.CurrHealth*healthMult)
+                if user.CurrHealth>user.Health:
+                  healthHealed=user.Health-healthPrevious
+                  user.CurrHealth=user.Health
+                else:
+                  healthHealed=int(user.CurrHealth*healthMult-user.CurrHealth)
+                print("\nYou decide not to explore the " + currentLocation +" and took rest.\nYou healed for "+str(healthHealed)+' Health.')
                 randomEvent(1)
             if ans == 'a':
                 equipMenu()
@@ -692,6 +828,5 @@ def dayCycle():
     clr()
     print("You died!")
     print("You lasted " + str(day) + " days.")
-
 
 dayCycle()
