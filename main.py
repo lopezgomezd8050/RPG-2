@@ -4,35 +4,38 @@ import time
 import math
 
 #things to do
-
-#fix the no armor bug
-#enemy total health is glitchy
-#add shop for the trader
 #fix the armor stats
-#add more items and fix the item pool
-
 #make the xp and enemy progression fair
+
+#done
+#fix the no armor bug#fixed
+#enemy total health is glitchy #ehh it works kinda #its a feature
+#add shop for the trader#added but not much to do
+
 
 
 class Armor:
 
-    def __init__(self, tier, slot, health, damage, name):
+    def __init__(self, tier, slot, health, damage, name,value):
         self.tier = tier
         self.slot = slot
         self.health = health
         self.damage = damage
         self.name = name
+        self.value = value
+        
 
 
 class Consumables:
 
-    def __init__(self, tier, slot, stat, increase, name, type):
+    def __init__(self, tier, slot, stat, increase, name, type,value):
         self.tier = tier
         self.slot = slot
         self.stat = stat
         self.increase = increase
         self.name = name
         self.type = type
+        self.value = value
 
 
 class Person:
@@ -52,86 +55,86 @@ class Person:
         self.Cutter = Cutter
 
 
-epichelmet = Armor(1, 'helmet', 99999, 99999, 'epichelmet')
+epichelmet = Armor(1, 'helmet', 99999, 99999, 'epichelmet',99999999)
 
 #Armors n stuff
 
-t1h = Armor(1, 'helmet', 1, 1, 'tier 1 helm')
-t1c = Armor(1, 'chestplate', 1, 1, 'tier 1 chestplate')
-t1p = Armor(1, 'platelegs', 1, 1, 'tier 1 platelegs')
-t1a = Armor(1, 'amulet', 1, 1, 'tier 1 amulet')
-t1s = Armor(1, 'sword', 1, 1, 'tier 1 sword')
-t1b = Armor(1, 'bow', 1, 1, 'tier 1 bow')
-t1w = Armor(1, 'wand', 1, 1, 'tier 1 wand')
+t1h = Armor(1, 'helmet', 1, 1, 'tier 1 helm',9)
+t1c = Armor(1, 'chestplate', 1, 1, 'tier 1 chestplate',9)
+t1p = Armor(1, 'platelegs', 1, 1, 'tier 1 platelegs',9)
+t1a = Armor(1, 'amulet', 1, 1, 'tier 1 amulet',9)
+t1s = Armor(1, 'sword', 1, 1, 'tier 1 sword',9)
+t1b = Armor(1, 'bow', 1, 1, 'tier 1 bow',9)
+t1w = Armor(1, 'wand', 1, 1, 'tier 1 wand',9)
 
-t2h = Armor(2, 'helmet', 1, 1, 'tier 2 helm')
-t2c = Armor(2, 'chestplate', 1, 1, 'tier 2 chestplate')
-t2p = Armor(2, 'platelegs', 1, 1, 'tier 2 platelegs')
-t2a = Armor(2, 'amulet', 1, 1, 'tier 2 amulet')
-t2s = Armor(2, 'sword', 1, 1, 'tier 2 sword')
-t2b = Armor(2, 'bow', 1, 1, 'tier 2 bow')
-t2w = Armor(2, 'wand', 1, 1, 'tier 2 wand')
+t2h = Armor(2, 'helmet', 1, 1, 'tier 2 helm',9)
+t2c = Armor(2, 'chestplate', 1, 1, 'tier 2 chestplate',9)
+t2p = Armor(2, 'platelegs', 1, 1, 'tier 2 platelegs',9)
+t2a = Armor(2, 'amulet', 1, 1, 'tier 2 amulet',9)
+t2s = Armor(2, 'sword', 1, 1, 'tier 2 sword',9)
+t2b = Armor(2, 'bow', 1, 1, 'tier 2 bow',9)
+t2w = Armor(2, 'wand', 1, 1, 'tier 2 wand',9)
 
-t3h = Armor(3, 'helmet', 1, 1, 'tier 3 helm')
-t3c = Armor(3, 'chestplate', 1, 1, 'tier 3 chestplate')
-t3p = Armor(3, 'platelegs', 1, 1, 'tier 3 platelegs')
-t3a = Armor(3, 'amulet', 1, 1, 'tier 3 amulet')
-t3s = Armor(3, 'sword', 1, 1, 'tier 3 sword')
-t3b = Armor(3, 'bow', 1, 1, 'tier 3 bow')
-t3w = Armor(3, 'wand', 1, 1, 'tier 3 wand')
+t3h = Armor(3, 'helmet', 1, 1, 'tier 3 helm',9)
+t3c = Armor(3, 'chestplate', 1, 1, 'tier 3 chestplate',9)
+t3p = Armor(3, 'platelegs', 1, 1, 'tier 3 platelegs',9)
+t3a = Armor(3, 'amulet', 1, 1, 'tier 3 amulet',9)
+t3s = Armor(3, 'sword', 1, 1, 'tier 3 sword',9)
+t3b = Armor(3, 'bow', 1, 1, 'tier 3 bow',9)
+t3w = Armor(3, 'wand', 1, 1, 'tier 3 wand',9)
 
-t4h = Armor(4, 'helmet', 1, 1, 'tier 4 helm')
-t4c = Armor(4, 'chestplate', 1, 1, 'tier 4 chestplate')
-t4p = Armor(4, 'platelegs', 1, 1, 'tier 4 platelegs')
-t4a = Armor(4, 'amulet', 1, 1, 'tier 4 amulet')
-t4s = Armor(4, 'sword', 1, 1, 'tier 4 sword')
-t4b = Armor(4, 'bow', 1, 1, 'tier 4 bow')
-t4w = Armor(4, 'wand', 1, 1, 'tier 4 wand')
+t4h = Armor(4, 'helmet', 1, 1, 'tier 4 helm',9)
+t4c = Armor(4, 'chestplate', 1, 1, 'tier 4 chestplate',9)
+t4p = Armor(4, 'platelegs', 1, 1, 'tier 4 platelegs',9)
+t4a = Armor(4, 'amulet', 1, 1, 'tier 4 amulet',9)
+t4s = Armor(4, 'sword', 1, 1, 'tier 4 sword',9)
+t4b = Armor(4, 'bow', 1, 1, 'tier 4 bow',9)
+t4w = Armor(4, 'wand', 1, 1, 'tier 4 wand',9)
 
-t5h = Armor(5, 'helmet', 1, 1, 'tier 5 helm')
-t5c = Armor(5, 'chestplate', 1, 1, 'tier 5 chestplate')
-t5p = Armor(5, 'platelegs', 1, 1, 'tier 5 platelegs')
-t5a = Armor(5, 'amulet', 1, 1, 'tier 5 amulet')
-t5s = Armor(5, 'sword', 1, 1, 'tier 5 sword')
-t5b = Armor(5, 'bow', 1, 1, 'tier 5 bow')
-t5w = Armor(5, 'wand', 1, 1, 'tier 5 wand')
+t5h = Armor(5, 'helmet', 1, 1, 'tier 5 helm',9)
+t5c = Armor(5, 'chestplate', 1, 1, 'tier 5 chestplate',9)
+t5p = Armor(5, 'platelegs', 1, 1, 'tier 5 platelegs',9)
+t5a = Armor(5, 'amulet', 1, 1, 'tier 5 amulet',9)
+t5s = Armor(5, 'sword', 1, 1, 'tier 5 sword',9)
+t5b = Armor(5, 'bow', 1, 1, 'tier 5 bow',9)
+t5w = Armor(5, 'wand', 1, 1, 'tier 5 wand',9)
 
-nh = Armor(0, 'helmet', 0, 0, 'No Helmet')
-nc = Armor(0, 'chestplate', 0, 0, 'No Chestplate')
-np = Armor(0, 'platelegs', 0, 0, 'No Platelegs')
-na = Armor(0, 'amulet', 0, 0, 'No Amulet')
-nw = Armor(0, 'sword', 0, 0, 'No Weapon')
+nh = Armor(0, 'helmet', 0, 0, 'No Helmet',0)
+nc = Armor(0, 'chestplate', 0, 0, 'No Chestplate',0)
+np = Armor(0, 'platelegs', 0, 0, 'No Platelegs',0)
+na = Armor(0, 'amulet', 0, 0, 'No Amulet',0)
+nw = Armor(0, 'sword', 0, 0, 'No Weapon',0)
 
-hp1 = Consumables(1, 'consumable', 'Health', 20, 'Health Potion 1', 'health')
-hp2 = Consumables(2, 'consumable', 'Health', 50, 'Health Potion 2', 'heatlh')
-hp3 = Consumables(3, 'consumable', 'Health', 100, 'Health Potion 3', 'health')
-hp4 = Consumables(4, 'consumable', 'Health', 250, 'Health Potion 4', 'health')
-hp5 = Consumables(5, 'consumable', 'Health', 600, 'Health Potion 5', 'health')
+hp1 = Consumables(1, 'consumable', 'Health', 20, 'Health Potion 1', 'health',9)
+hp2 = Consumables(2, 'consumable', 'Health', 50, 'Health Potion 2', 'heatlh',9)
+hp3 = Consumables(3, 'consumable', 'Health', 100, 'Health Potion 3', 'health',9)
+hp4 = Consumables(4, 'consumable', 'Health', 250, 'Health Potion 4', 'health',9)
+hp5 = Consumables(5, 'consumable', 'Health', 600, 'Health Potion 5', 'health',9)
 
-m1 = Consumables(1, 'consumable', 'Mage', 10, 'Magic Potion 1', 'magic')
-w1 = Consumables(1, 'consumable', 'Attack', 10, 'Attack Potion 1', 'range')
-a1 = Consumables(1, 'consumable', 'Range', 10, 'Attack Potion 1', 'attack')
-o1 = Consumables(1, 'consumable', 'Mage', 10, 'Overload Potion 1', 'all')
+m1 = Consumables(1, 'consumable', 'Mage', 10, 'Magic Potion 1', 'magic',9)
+w1 = Consumables(1, 'consumable', 'Attack', 10, 'Attack Potion 1', 'range',9)
+a1 = Consumables(1, 'consumable', 'Range', 10, 'Attack Potion 1', 'attack',9)
+o1 = Consumables(1, 'consumable', 'Mage', 10, 'Overload Potion 1', 'all',9)
 
-m2 = Consumables(2, 'consumable', 'Mage', 20, 'Magic Potion 2', 'magic')
-w2 = Consumables(2, 'consumable', 'Attack', 20, 'Attack Potion 2', 'range')
-a2 = Consumables(2, 'consumable', 'Range', 20, 'Attack Potion 2', 'attack')
-o2 = Consumables(2, 'consumable', 'Mage', 20, 'Overload Potion 2', 'all')
+m2 = Consumables(2, 'consumable', 'Mage', 20, 'Magic Potion 2', 'magic',9)
+w2 = Consumables(2, 'consumable', 'Attack', 20, 'Attack Potion 2', 'range',9)
+a2 = Consumables(2, 'consumable', 'Range', 20, 'Attack Potion 2', 'attack',9)
+o2 = Consumables(2, 'consumable', 'Mage', 20, 'Overload Potion 2', 'all',9)
 
-m3 = Consumables(3, 'consumable', 'Mage', 50, 'Magic Potion 3', 'magic')
-w3 = Consumables(3, 'consumable', 'Attack', 50, 'Attack Potion 3', 'range')
-a3 = Consumables(3, 'consumable', 'Range', 50, 'Attack Potion 3', 'attack')
-o3 = Consumables(3, 'consumable', 'Mage', 50, 'Overload Potion 3', 'all')
+m3 = Consumables(3, 'consumable', 'Mage', 50, 'Magic Potion 3', 'magic',9)
+w3 = Consumables(3, 'consumable', 'Attack', 50, 'Attack Potion 3', 'range',9)
+a3 = Consumables(3, 'consumable', 'Range', 50, 'Attack Potion 3', 'attack',9)
+o3 = Consumables(3, 'consumable', 'Mage', 50, 'Overload Potion 3', 'all',9)
 
-m4 = Consumables(4, 'consumable', 'Mage', 100, 'Magic Potion 4', 'magic')
-w4 = Consumables(4, 'consumable', 'Attack', 100, 'Attack Potion 4', 'range')
-a4 = Consumables(4, 'consumable', 'Range', 100, 'Attack Potion 4', 'attack')
-o4 = Consumables(4, 'consumable', 'Mage', 100, 'Overload Potion 4', 'all')
+m4 = Consumables(4, 'consumable', 'Mage', 100, 'Magic Potion 4', 'magic',9)
+w4 = Consumables(4, 'consumable', 'Attack', 100, 'Attack Potion 4', 'range',9)
+a4 = Consumables(4, 'consumable', 'Range', 100, 'Attack Potion 4', 'attack',9)
+o4 = Consumables(4, 'consumable', 'Mage', 100, 'Overload Potion 4', 'all',9)
 
-m5 = Consumables(5, 'consumable', 'Mage', 300, 'Magic Potion 5', 'magic')
-w5 = Consumables(5, 'consumable', 'Attack', 300, 'Attack Potion 5', 'range')
-a5 = Consumables(5, 'consumable', 'Range', 300, 'Attack Potion 5', 'attack')
-o5 = Consumables(5, 'consumable', 'Mage', 300, 'Overload Potion 5', 'all')
+m5 = Consumables(5, 'consumable', 'Mage', 300, 'Magic Potion 5', 'magic',9)
+w5 = Consumables(5, 'consumable', 'Attack', 300, 'Attack Potion 5', 'range',9)
+a5 = Consumables(5, 'consumable', 'Range', 300, 'Attack Potion 5', 'attack',9)
+o5 = Consumables(5, 'consumable', 'Mage', 300, 'Overload Potion 5', 'all',9)
 noArmored = [nh, nc, np, na, nw]
 
 armorTable = [
@@ -200,8 +203,8 @@ def userStats():
     print("Attack: " + str(user.Attack))
     print("Mage: " + str(user.Mage))
     print("Range: " + str(user.Range))
-    print("Effects: " + str(user.Effects))
-    print("Money: " + str(money))
+    print("Effects: " + str(*user.Effects))
+    print("Coins: " + str(money))
     print("Level: " + str(user.Level))
     print("Exp: " + str(user.Exp) + "\nTo next level: " + str(user.Cutter) +
           '\n')
@@ -215,6 +218,11 @@ def armorSwapper(slot):
     validNumberList = []
     validArmorList = []
     ansEquipToInv = []
+    w=0
+    for item in inv:
+      if item.value == 0:
+        inv.pop(w)
+      w=w+1
     for item in inv:
         if item.slot == slot:
             print(item.name + " (" + (str(x)) + ')\n')
@@ -704,9 +712,50 @@ def trapChest():
     battle('')
     loot("trapChest")
 
-def shopInt():
-  print('What would you like to buy?')
-  shopInv=[armorTable,consumableTable]#could use the loot table code
+def shopInt(tier):
+  print('\nWhat would you like to buy?')
+  validLoot = []
+  num=0
+  formatThingy=[]
+  formatItem=[]
+  formatName=[]
+  formatValue=[]
+  formatNumber=[]
+  shoppingComplete=[]
+  global money
+  for item in armorTable:
+      if item.tier == tier:
+          validLoot.append(item)
+  for item in consumableTable:
+      if item.tier == tier:
+          validLoot.append(item)
+  x=5
+  y=0
+  for i in range(x):
+    z=random.choice(validLoot)
+    print(z.name+' ('+str(z.value)+')'+'('+str(y)+')')
+    formatThingy.append([z,z.name,z.value,y])
+    formatItem.append(z)
+    formatName.append(z.name)
+    formatValue.append(z.value)
+    formatNumber.append(y)
+    shopChoice='9'
+    y=y+1
+  while shopChoice not in formatNumber:
+    try:
+      shopChoice = int(input('What number item would you like to buy?: '))
+      if formatValue[shopChoice]>money:
+        print('too poor lol')
+        shopChoice='9'
+        break
+      shoppingComplete = formatItem[shopChoice]
+      formatItem.pop(shopChoice)
+      money=money-formatValue[shopChoice]
+      inv.append(shoppingComplete)
+    except:
+      continue
+    
+  
 def shop():
     enterclr()
     ans = ''
@@ -715,17 +764,22 @@ def shop():
         "what would you like to buy, not buy, or attack the shop owner?", 'b',
         'n', 'a')
     if ans == 'b':
-        shopInt()
-        print('\nyou enter the shop (yk if there was one) (will add later)\n')
+        if currentLocation == "plains":
+          shopInt(1)
+        elif currentLocation == "forest":
+          shopInt(2)
+        elif currentLocation == "desert":
+          shopInt(3)
+        elif currentLocation == "tundra":
+          shopInt(4)
+        elif currentLocation == "mountain":
+          shopInt(5)
+        elif currentLocation == "mountaintop":
+          shopInt(5)
     elif ans == 'n':
         print('\nYou kindly decline their offer.\n')
     elif ans == 'a':
       battle('trader')
-      # battleConfirm = yesNo('are you sure?')
-      # if battleConfirm == 'y':
-      #   battle('trader')
-      # if battleConfirm == 'n':
-      #   print('good')
 
 
 def finalBoss():
@@ -817,7 +871,11 @@ def tutorial():
         print("Range: " + str(user.Range) + '\n')
 
     enterclr()
-    print("put tutorial here")
+    print('''
+Tutorial goes here i think
+how does this work
+real
+    ''')
     enterclr()
 
 
@@ -840,6 +898,11 @@ def dayCycle():
                 ans = "ans"
             if ans == "i":
                 print("\n")
+                w=0
+                for item in inv:
+                  if item.value == 0:
+                    inv.pop(w)
+                  w=w+1
                 for item in inv:
                     print(item.name)
                 ans = "ans"
