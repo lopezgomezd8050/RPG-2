@@ -162,7 +162,7 @@ event = 0
 eventRegulator = 0
 randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
     "shop"
-] * 500 + [
+] * 1 + [
     "final boss"
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
@@ -386,10 +386,33 @@ def loot(source):
                 a = lootTable()
                 print(a.name)
 
-
+abc=0
 def ArmorToPerson(person):
     #this will add more health every time it is run, maybe this should be put in the armor equip stuff but every time it runs it adds more and more health
     #so every time you like get into a battle you get more and more hp
+    attackStyle = 0
+    global abc
+    if person.Class == 'w':
+        attackStyle = person.Attack
+    elif person.Class == 'a':
+        attackStyle = person.Range
+    elif person.Class == 'm':
+        attackStyle = person.Mage
+    if abc == 0:
+      for i in person.Equip:
+        person.Health = person.Health + i.health
+        attackStyle = attackStyle + i.damage
+    elif abc == 1:
+      for i in person.Equip:
+        person.Health = person.Health - i.health
+        attackStyle = attackStyle - i.damage
+    if person.Class == 'w':
+        person.Attack = attackStyle
+    elif person.Class == 'a':
+        person.Range = attackStyle
+    elif person.Class == 'm':
+        person.Mage = attackStyle
+def removeArmor(person):
     attackStyle = 0
     if person.Class == 'w':
         attackStyle = person.Attack
@@ -398,15 +421,14 @@ def ArmorToPerson(person):
     elif person.Class == 'm':
         attackStyle = person.Mage
     for i in person.Equip:
-        person.Health = person.Health + i.health
-        attackStyle = attackStyle + i.damage
+        person.Health = person.Health - i.health
+        attackStyle = attackStyle - i.damage
     if person.Class == 'w':
         person.Attack = attackStyle
     elif person.Class == 'a':
         person.Range = attackStyle
     elif person.Class == 'm':
         person.Mage = attackStyle
-
 
 def expToLevel(person):
     while person.Exp >= person.Cutter:
@@ -583,7 +605,8 @@ def battle(special):
             enemyClassStyle = ' the Magician '
         enemy.Effects = []
         enemy.Equip = [nh, nc, np, na, nw]
-        expToLevel(enemy)
+        expToLevel(enemy) 
+        ArmorToPerson(enemy)
         print(enemyFullName + enemyClassStyle + 'drew near!')
     elif special == 'trader':
         #fair and balanced
@@ -594,6 +617,7 @@ def battle(special):
         enemy.Equip = [t5h, t5c, t5p, t5a, t5w]
         enemyFullName = 'The Wandering Trader'
         expToLevel(enemy)
+        ArmorToPerson(enemy)
         print('The trader had enough')
     elif special == 'boss1':
       print('boss 1')
@@ -696,7 +720,6 @@ def battle(special):
       print('You fled so you gained no Money, Exp or Loot.')
     expToLevel(user)
 
-
 def chest():
     enterclr()
     print('You found a Treasure Chest while exploring the ' + currentLocation +
@@ -715,7 +738,6 @@ def trapChest():
 def shopInt(tier):
   print('\nWhat would you like to buy?')
   validLoot = []
-  num=0
   formatThingy=[]
   formatItem=[]
   formatName=[]
@@ -796,7 +818,7 @@ def randomEvent(odds):
     global eventRegulator
     odds = odds * luck
     rolls = 0
-    eventRegulator = 80#normally 8
+    eventRegulator = 8#normally 8
     #^^^^^^ change this to randomly change based on luck or days or smth
     for i in range(int(odds)):
         rolls = random.randint(0, 1)
