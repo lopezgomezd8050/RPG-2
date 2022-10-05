@@ -4,13 +4,13 @@ import time
 import math
 
 #things to do
-#fix the armor stats
 #make the xp and enemy progression fair
 
 #done
 #fix the no armor bug#fixed
 #enemy total health is glitchy #ehh it works kinda #its a feature
 #add shop for the trader#added but not much to do
+#fix the armor stats
 
 
 class Armor:
@@ -170,9 +170,10 @@ randomEvents = ["battle"] * 6 + ["chest"] * 1 + ["trapchest"] * 1 + [
 ] * 0  #make this a variable that changes to 1 after reaching moutnaintop
 #also make a random event that like lets you move onto the next area by fighting a boss
 
-inv = [epichelmet, t4a, hp3, o4, a2]
+inv = []
 
 
+#inv = [epichelmet, t4a, hp3, o4, a2,t1h]
 def enter():
   input("Press enter to continue.")
 
@@ -213,8 +214,9 @@ def userStats():
         '\n')
 
 
-#no armor still exists in inventory but we can fix that later bc i am lazy and i worked on this for long enough
 def armorSwapper(slot):
+  global pureHeath
+  global pureDamage
   ansEquip = ''
   x = 0
   y = 0
@@ -242,10 +244,33 @@ def armorSwapper(slot):
       ansEquip = int(input('what number item would you like to equip?: '))
 
       z = 0
+      pureHealth = user.Health
+      if user.Class == 'w':
+        pureDamage = user.Attack
+      elif user.Class == 'a':
+        pureDamage = user.Range
+      elif user.Class == 'm':
+        pureDamage = user.Mage
+
       for i in user.Equip:
         if i.slot == slot:
           inv.append(i)
+          user.Health = user.Health - i.health
+          if user.Class == 'w':
+            user.Attack = user.Attack - i.damage
+          elif user.Class == 'a':
+            user.Range = user.Range - i.damage
+          elif user.Class == 'm':
+            user.Mage = user.Mage - i.damage
           user.Equip[z] = (validArmorList[int(ansEquip)])
+          v = validArmorList[int(ansEquip)]
+          user.Health = user.Health + v.health
+          if user.Class == 'w':
+            user.Attack = user.Attack + v.damage
+          elif user.Class == 'a':
+            user.Range = user.Range + v.damage
+          elif user.Class == 'm':
+            user.Mage = user.Mage + v.damage
         z = z + 1
       finalEquip = ansEquipToInv[int(ansEquip)]
       finalEquip.pop(0)
@@ -299,10 +324,11 @@ def lootSorter(tier):
       validLoot.append(item)
       validLoot.append(item)
       validLoot.append(item)
+      validLoot.append(item)
+      validLoot.append(item)
   return random.choice(validLoot)
 
 
-#VV bad code will change later™
 def lootTable():
   lootGotten = ""
   if currentLocation == "plains":
@@ -559,7 +585,6 @@ def consumableCalc(type):
 def battle(special):
   global money
   expToLevel(user)
-  ArmorToPerson(user)
   classPool = ['w', 'a', 'm']
   fleeCheck = 0
   if user.CurrHealth > user.Health:
