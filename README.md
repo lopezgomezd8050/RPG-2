@@ -1,7 +1,6 @@
 # RPG-2
 
-* Sequel to another python program that I've made 
-* [Game](https://replit.com/@SlimeFactory/RPG?v=1)
+* Sequel to another [python program](https://replit.com/@SlimeFactory/RPG?v=1) that I've made
 * Computer science
 * You should play it
 
